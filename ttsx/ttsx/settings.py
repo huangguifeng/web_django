@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'ttsx.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': "py_django",
+        'NAME': "web_django",
         'HOST':'localhost',
         'PASSWORD':'mysql',
         'PORT':3306,

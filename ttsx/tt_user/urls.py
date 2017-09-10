@@ -3,5 +3,4 @@ from . import views
 urlpatterns=[
     url(r'^register/$',views.register),
     url(r'verifycode/',views.verifycode)
-
 ]

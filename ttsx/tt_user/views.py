@@ -22,8 +22,8 @@ def login(request):
 
 
 def verifycode(request):
-    """随机生成6位的验证码（字母数字随机组合，包含大小写）"""
 
+    """随机生成6位的验证码（字母数字随机组合，包含大小写）"""
     code_list = []
     # 每一位验证码都有三种可能（大写字母，小写字母，数字）
     for i in range(6):
@@ -46,8 +46,8 @@ def verifycode(request):
     font = ImageFont.truetype('FreeMono.ttf', 23)  # 字体
     bgcolor = (random.randrange(20, 100), random.randrange(
         20, 100), random.randrange(10,255))
-    height = 25
-    width = 130
+    height = 36
+    width = 150
     # 创建画布
     im = Image.new('RGB', (width, height), bgcolor)
     # 创建画笔对象　
@@ -63,7 +63,7 @@ def verifycode(request):
         draw.point(xy, fill=fill)
     x = 1
     for i in code_list:
-        draw.text((16*x, 2), i, font=font, fill=fontcolor)
+        draw.text((16*x, 5), i, font=font, fill=fontcolor)
         x+=1
     del draw
     request.session['verifycode'] = verification_code

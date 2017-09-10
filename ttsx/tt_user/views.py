@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from PIL import Image, ImageDraw, ImageFont
+from django.http import HttpResponse
 import random
+from io import StringIO
+
 # Create your views here.
 
 def register(request):
@@ -53,8 +56,22 @@ def verifycode(request):
     # 创建画笔对象　
     draw = ImageDraw.Draw(im)
 
+    # 构造字体颜色
+    fontcolor = (255, random.randrange(0, 255), random.randrange(0, 255))
+
     # 噪点
     for i in range(0, 100):
         xy = (random.randrange(0, width), random.randrange(0, height))
         fill = (random.randrange(0, 255), 255, random.randrange(0, 255))
         draw.point(xy, fill=fill)
+    x = 1
+    for i in code_list:
+        draw.text((16*x, 2), i, font=font, fill=fontcolor)
+        x+=1
+    del draw
+    request.session['verifycode'] = verification_code
+
+    buf = StringIO()
+    # 将图片保存在内存中，文件类型为png
+    im.save(buf, 'png')
+    return HttpResponse(buf.getvalue(), 'image/png')

@@ -1,5 +1,26 @@
 {% extends 'base_footer.html'%}
+	 {% block head%}
+         <script>
+         $(function () {
+                 $('.code_img').click(function () {
+        $(this).attr('src',$(this).attr('src')+1)
+    });
+          $('.code_input').blur(function () {
+              $.post('/user/code/',{'code':$(this).val()},function (data) {
+                  if(data.error_no == 1 ){
+                      $('.code_error').html('验证码错误，点击图片更换').show()
+                  }else {
+                      $('.code_error').html('验证码错误，点击图片更换').hide()
+                  }
+              })
+          })
 
+
+
+         });
+
+         </script>
+	 {% endblock head%}
 {% block body%}
 	<div class="login_top clearfix">
 		<a href="index.html" class="login_logo"><img src="/static/images/logo02.png"></a>
@@ -20,6 +41,9 @@
 						<div class="user_error">输入错误</div>
 						<input type="password" name="pwd" class="pass_input" placeholder="请输入密码">
 						<div class="pwd_error">输入错误</div>
+                        <input type="text" name="code" class="code_input" placeholder="请输入验证码">
+                        <img src="/user/verifycode/?1" class="code_img">
+						<div class="code_error">输入错误</div>
 						<div class="more_input clearfix">
 							<input type="checkbox" name="">
 							<label>记住用户名</label>

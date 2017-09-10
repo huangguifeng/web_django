@@ -5,6 +5,7 @@ $(function(){
 	var error_check_password = false;
 	var error_email = false;
 	var error_check = false;
+	var error_code = false;
 
 
 	$('#user_name').blur(function() {
@@ -22,6 +23,17 @@ $(function(){
 	$('#email').blur(function() {
 		check_email();
 	});
+	$('#code').blur(function () {
+          $.post('/user/code/',{'code':$(this).val()},function (data) {
+            if(data.error_no == 1 ){
+                     $('#code').nextAll('span').html('验证码错误，点击图片更换').show()
+                error_code=true
+            }else {
+                      $('#code').nextAll('span').html('').hide();
+                error_code=false
+                  }
+        })
+    });
 
 	$('#allow').click(function() {
 		if($(this).is(':checked'))
@@ -51,6 +63,20 @@ $(function(){
 			$('#user_name').next().hide();
 			error_name = false;
 		}
+
+		$.post('/user/verify_user/',{'uname':$('#user_name').val()},function (data) {
+            if(data.error_code ==1){
+                	$('#user_name').next().html('用户名存在')
+			$('#user_name').next().show();
+			error_name = true;
+            }else{
+                $('#user_name').next().hide();
+			error_name = false;
+            }
+        })
+
+
+
 	}
 
 	function check_pwd(){
@@ -102,8 +128,20 @@ $(function(){
 			error_check_password = true;
 		}
 
-	}
+		$.post('/user/verify_email/',{'email':$('#email').val()},function (data) {
+            if(data.error_code ==1){
+          	$('#email').next().html('邮箱已存在')
+			$('#email').next().show();
+			error_check_password = true;
+            }else{
+                $('#email').next().hide();
+			error_email = false;
+            }
+        })
 
+
+
+	}
 
 	$('#reg_form').submit(function() {
 		check_user_name();
@@ -111,7 +149,8 @@ $(function(){
 		check_cpwd();
 		check_email();
 
-		if(error_name == false && error_password == false && error_check_password == false && error_email == false && error_check == false)
+
+		if(error_code==false   &&error_name == false && error_password == false && error_check_password == false && error_email == false && error_check == false)
 		{
 			return true;
 		}
@@ -122,11 +161,8 @@ $(function(){
 
 	});
 
-
-
-
-
-
-
+    $('.register_code_img').click(function () {
+        $(this).attr('src',$(this).attr('src')+1)
+    })
 
 })

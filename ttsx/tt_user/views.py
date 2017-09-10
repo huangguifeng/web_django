@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from PIL import Image, ImageDraw, ImageFont
-from django.http import HttpResponse
+from django.http import HttpResponse,JsonResponse
 import random
 from io import BytesIO
 from .models import *
@@ -13,6 +13,26 @@ def register(request):
     return render(request, 'tt_user/register.html', context)
 
 
+# 验证用户名是否存在
+def verify_user(request):
+    uname = request.POST.get('uname')
+    sname = UserInfo.objects.filter(uname=uname)
+    if sname:
+        return JsonResponse({"error_code":1})
+    else:
+        return JsonResponse({"error_code": 0})
+# 判断邮箱是否存在
+def verify_email(request):
+    email = request.POST.get('email')
+    semail = UserInfo.objects.filter(uemail=email)
+    if semail:
+        return JsonResponse({"error_code":1})
+    else:
+        return JsonResponse({"error_code": 0})
+# 注册用户到数据库
+def insert_user(requert):
+    pass
+
 
 def login(request):
     title = '天天生鲜-登录'
@@ -20,7 +40,7 @@ def login(request):
     return render(request, 'tt_user/login.html', context)
 
 
-
+#生成验证码
 def verifycode(request):
 
     """随机生成6位的验证码（字母数字随机组合，包含大小写）"""
@@ -72,3 +92,13 @@ def verifycode(request):
     # 将图片保存在内存中，文件类型为png
     im.save(buf, 'png')
     return HttpResponse(buf.getvalue(), 'image/png')
+
+
+#　注册登录验证
+def code(request):
+    ucode = request.POST.get('code')
+    scode = request.session['verifycode']
+    if ucode.lower() == scode.lower():
+        return JsonResponse({'error_no':0})
+    else:
+        return JsonResponse({'error_no':1})

@@ -1,10 +1,6 @@
-#coding=utf-8
+from django.conf.urls import url
+from . import views
 
-
-
-def main():
-    pass
-
-
-if __name__ == "__main__":
-    main()
+urlpatterns=[
+    url(r'cart.html$', views.carts),
+]

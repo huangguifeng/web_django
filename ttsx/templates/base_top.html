@@ -1,18 +1,22 @@
-{% extends 'df_user/base_footer.html'%}
+{% extends 'base_footer.html' %}
 	 {% block head%}
-	<script type="text/javascript" src="js/jquery-ui.min.js"></script>
-	<script type="text/javascript" src="js/slide.js"></script>
+	<script type="text/javascript" src="/static/js/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="/static/js/slide.js"></script>
 	 {% endblock head%}
 
 
-{ % block middle_con%}
-
-{ % endblock middle_con%}
 
 
 
 
 {% block body%}
+
+
+{% block middle_com %}
+
+{% endblock middle_com%}
+
+
 	<div class="header_con">
 		<div class="header">
 			<div class="welcome fl">欢迎来到天天生鲜!</div>
@@ -21,9 +25,9 @@
 					欢迎您：<em>张 山</em>
 				</div>
 				<div class="login_btn fl">
-					<a href="login.html">登录</a>
+					<a href="tt_user/login.html">登录</a>
 					<span>|</span>
-					<a href="register.html">注册</a>
+					<a href="tt_user/register.html">注册</a>
 				</div>
 				<div class="user_link fl">
 					<span>|</span>

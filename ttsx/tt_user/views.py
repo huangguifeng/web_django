@@ -6,12 +6,12 @@ def register(request):
 
     title = '天天生鲜-注册'
     context = {"title":title}
-    return render(request,'df_user/register.html',context)
+    return render(request, 'tt_user/register.html', context)
 
 
 
 def login(request):
     title = '天天生鲜-登录'
     context = {"title":title}
-    return render(request,'df_user/login.html',context)
+    return render(request, 'tt_user/login.html', context)
 

@@ -1,10 +1,10 @@
 $(function(){
 
-	var error_name = false;
-	var error_password = false;
-	var error_check_password = false;
-	var error_email = false;
-	var error_check = false;
+	var error_name = true;
+	var error_password = true;
+	var error_check_password = true;
+	var error_email = true;
+	var error_check = true;
 
 
 	$('#user_name').blur(function() {
@@ -67,6 +67,7 @@ $(function(){
 	}
 
 	function check_pwd(){
+
 		var len = $('#pwd').val().length;
 		if(len<8||len>20)
 		{
@@ -96,6 +97,7 @@ $(function(){
 		{
 			$('#cpwd').next().hide();
 			error_check_password = false;
+
 		}		
 		
 	}

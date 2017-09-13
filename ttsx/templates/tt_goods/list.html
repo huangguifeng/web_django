@@ -1,22 +1,33 @@
 {% extends 'base_top.html' %}
 
 {% block middle_com %}
+{#    <script>#}
+{#        $(function () {#}
+        {# 获取菜单的点击事件 #}
+{#           $('.subnav').delegate('a','click',function () {#}
+{#               var value = $(this).html();#}
+{#            var value2 = $('.breadcrumb a ').eq(1).html();#}
+{#            value2 = value;#}
+{#               $('.breadcrumb a').eq(1).html(value2);#}
+{#           });#}
+{#        });#}
+{#    </script>#}
 <div class="navbar_con">
 		<div class="navbar clearfix">
 			<div class="subnav_con fl">
 				<h1>全部商品分类</h1>
 				<span></span>
 				<ul class="subnav">
-					<li><a href="#" class="fruit">新鲜水果</a></li>
-					<li><a href="#" class="seafood">海鲜水产</a></li>
-					<li><a href="#" class="meet">猪牛羊肉</a></li>
-					<li><a href="#" class="egg">禽类蛋品</a></li>
-					<li><a href="#" class="vegetables">新鲜蔬菜</a></li>
-					<li><a href="#" class="ice">速冻食品</a></li>
+					<li><a href="/list1_1/" class="fruit">新鲜水果</a></li>
+					<li><a href="/list2_1/" class="seafood">海鲜水产</a></li>
+					<li><a href="/list3_1/" class="meet">猪牛羊肉</a></li>
+					<li><a href="/list4_1/" class="egg">禽类蛋品</a></li>
+					<li><a href="/list5_1/" class="vegetables">新鲜蔬菜</a></li>
+					<li><a href="/list6_1/" class="ice">速冻食品</a></li>
 				</ul>
 			</div>
 			<ul class="navlist fl">
-				<li><a href="">首页</a></li>
+				<li><a href="/">首页</a></li>
 				<li class="interval">|</li>
 				<li><a href="">手机生鲜</a></li>
 				<li class="interval">|</li>
@@ -28,7 +39,7 @@
 	<div class="breadcrumb">
 		<a href="#">全部分类</a>
 		<span>></span>
-		<a href="#">新鲜水果</a>
+		<a href="#">{{ title }}</a>
 	</div>
 
 	<div class="main_wrap clearfix">
@@ -36,16 +47,18 @@
 			<div class="new_goods">
 				<h3>新品推荐</h3>
 				<ul>
+                    {% for g in list %}
 					<li>
-						<a href="#"><img src="/static/images/goods/goods001.jpg"></a>
-						<h4><a href="#">进口柠檬</a></h4>
-						<div class="prize">￥3.90</div>
+						<a href="/{{ g.id }}"><img src="/static/{{ g.gpic }}"></a>
+						<h4><a href="/{{ g.id }}">{{ g.gtitle}}</a></h4>
+						<div class="prize">￥ {{ g.gprice }}</div>
 					</li>
-					<li>
-						<a href="#"><img src="/static/images/goods/goods002.jpg"></a>
-						<h4><a href="#">玫瑰香葡萄</a></h4>
-						<div class="prize">￥16.80</div>
-					</li>
+                    {% endfor %}
+{#					<li>#}
+{#						<a href="#"><img src="/static/images/goods/goods002.jpg"></a>#}
+{#						<h4><a href="#">玫瑰香葡萄</a></h4>#}
+{#						<div class="prize">￥16.80</div>#}
+{#					</li>#}
 				</ul>
 			</div>
 		</div>
@@ -58,14 +71,14 @@
 			</div>
 
 			<ul class="goods_type_list clearfix">
-				{% for goods in list %}
+				{% for goods in goodslist %}
                 <li>
-					<a href="detail.html"><img src="/static/{{ goods.gpic }}"></a>
-					<h4><a href="detail.html">{{ goods.gtitle }}</a></h4>
+					<a href="/{{ goods.id }}"><img src="/static/{{ goods.gpic }}"></a>
+					<h4><a href="/{{ goods.id }}">{{ goods.gtitle }}</a></h4>
 					<div class="operate">
 						<span class="prize">{{ goods.gprice}}</span>
 						<span class="unit">{{ goods.gprice}}/{{ goods.gunit }}</span>
-						<a href="#" class="add_goods" title="加入购物车"></a>
+						<a href="/cart/" class="add_goods" title="加入购物车"></a>
 					</div>
 				</li>
                 {% endfor %}
@@ -197,16 +210,21 @@
 			</ul>
 
 			<div class="pagenation">
-                <a href="#">上一页</a>
-                {% for pindex in list.paginator.page_range %}
-                <a href="/list{{ pindex }}/" class="active">{{ pindex }}</a>
+                {% if page.has_previous %}
+                <a href="/list{{tid }}_{{ pindex }}/" class="active">上一页</a>
+                {% endif %}
+                {% for pindex in goodslist.paginator.page_range %}
+                <a href="/list{{ tid }}_{{ pindex }}/" class="active">{{ pindex }}</a>
                 {% endfor %}
 {#				<a href="#" class="active">1</a>#}
 {#				<a href="#">2</a>#}
 {#				<a href="#">3</a>#}
 {#				<a href="#">4</a>#}
 {#				<a href="#">5</a>#}
-				<a href="#">下一页></a>
+                {% if page.has_next %}
+
+				<a href="/list{{ tid }}_{{ pindex }}/" class="active">下一页</a>
+                {% endif %}
 			</div>
 
 		</div>

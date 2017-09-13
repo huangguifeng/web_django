@@ -24,16 +24,28 @@ def index(request):
                'list5':list5,'list51':list51}
     return render(request,'tt_goods/index.html',context)
 
-def list(request,pindex):
+def list(request,tid,pindex):
 
-    typelist = TypeInfo.objects.all()
+    typelist = TypeInfo.objects.get(pk=int(tid))
+    list = typelist.goodsinfo_set.order_by('-id')[0:2]
 
-    paginator = Paginator(typelist,15)
+    goodslist = GoodsInfo.objects.filter(gtype__id=int(tid)).order_by('-id')
+    paginator = Paginator(goodslist,15)
     page = paginator.page(int(pindex))
-    context = {'typelist': page}
+    context = {'goodslist': page,'list':list,"tid":tid,
+               "title":typelist.ttitle,'typelist':typelist}
     return render(request,'tt_goods/list.html',context)
 
 
+def detail(request,gid):
+    goods = GoodsInfo.objects.get(pk=int(gid))
+    goods.gclick +=1
+    goods.save()
+    list = goods.gtype.goodsinfo_set.order_by('-id')[0:2]
+    context ={'goods':goods,'list':list}
+    return render(request,'tt_goods/detail.html',context)
+
 def admin(request):
     pass
+
 

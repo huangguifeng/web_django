@@ -8,7 +8,7 @@
 			<input type="button" class="input_btn fr" name="" value="搜索">
 		</div>
 		<div class="guest_cart fr">
-			<a href="#" class="cart_name fl">我的购物车</a>
+			<a href="/cart/" class="cart_name fl">我的购物车</a>
 			<div class="goods_count fl" id="show_count">1</div>
 		</div>
 	</div>
@@ -17,7 +17,7 @@
 		<div class="navbar">
 			<h1 class="fl">全部商品分类</h1>
 			<ul class="navlist fl">
-				<li><a href="">首页</a></li>
+				<li><a href="/">首页</a></li>
 				<li class="interval">|</li>
 				<li><a href="">手机生鲜</a></li>
 				<li class="interval">|</li>
@@ -59,12 +59,12 @@
 			<div class="subtitle fl">
 				<span>|</span>
                 {% for list in list0 %}
-				<a href="#">{{ list.gtitle|slice:'9' }}</a>
+				<a href="{{ list.id }}">{{ list.gtitle|slice:'9' }}</a>
 {#				<a href="#">{{ list.gtitle }}加州提子</a>#}
 {#				<a href="#">{{ list.gtitle }}亚马逊牛油果</a>#}
                 {% endfor %}
 			</div>
-			<a href="#" class="goods_more fr" id="fruit_more">查看更多 ></a>
+			<a href="/list1_1/" class="goods_more fr" id="fruit_more">查看更多 ></a>
 		</div>
 
 		<div class="goods_con clearfix">
@@ -72,8 +72,8 @@
 			<ul class="goods_list fl">
                 {% for goods in list01 %}
 				<li>
-					<h4><a href="#">{{ goods.gtitle|slice:'9'}}...</a></h4>
-					<a href="#"><img src="/static/{{ goods.gpic }}"></a>
+					<h4><a href="/{{ goods.id }}">{{ goods.gtitle|slice:'9'}}...</a></h4>
+					<a href="/{{ goods.id }}"><img src="/static/{{ goods.gpic }}"></a>
 					<div class="prize">¥ {{goods.gprice }}</div>
 				</li>
                 {% endfor %}
@@ -102,11 +102,11 @@
 			<div class="subtitle fl">
 				<span>|</span>
                 {% for list in list1 %}
-				<a href="#">{{ list.gtitle|slice:'9' }}..</a>
+				<a href="/{{ list.id }}">{{ list.gtitle|slice:'9' }}..</a>
 {#				<a href="#">扇贝</a>#}
                 {% endfor %}
 			</div>
-			<a href="#" class="goods_more fr">查看更多 ></a>
+			<a href="/list2_1/" class="goods_more fr">查看更多></a>
 		</div>
 
 		<div class="goods_con clearfix">
@@ -114,8 +114,8 @@
 			<ul class="goods_list fl">
                 {% for goods in list11 %}
 				<li>
-					<h4><a href="#">{{ goods.gtitle|slice:'9' }}..</a></h4>
-					<a href="#"><img src="/static/{{ goods.gpic }}"></a>
+					<h4><a href="/{{ goods.id }}">{{ goods.gtitle|slice:'9' }}..</a></h4>
+					<a href="/{{ goods.id }}"><img src="/static/{{ goods.gpic }}"></a>
 					<div class="prize">¥ {{ goods.gprice }}</div>
 				</li>
                 {% endfor %}
@@ -144,12 +144,12 @@
 			<div class="subtitle fl">
 				<span>|</span>
                 {% for list in list2 %}
-				<a href="#">{{ list.gtitle|slice:'6'}}</a>
+				<a href="/{{ list.id }}">{{ list.gtitle|slice:'6'}}</a>
 {#				<a href="#">加州提子</a>#}
 {#				<a href="#">亚马逊牛油果</a>#}
                 {% endfor %}
 			</div>
-			<a href="#" class="goods_more fr">查看更多 ></a>
+			<a href="/list3_1/" class="goods_more fr">查看更多 ></a>
 		</div>
 
 		<div class="goods_con clearfix">
@@ -157,8 +157,8 @@
 			<ul class="goods_list fl">
                 {% for goods in list21 %}
 				<li>
-					<h4><a href="#">{{ goods.gtitle|slice:'6' }}..</a></h4>
-					<a href="#"><img src="/static/{{ goods.gpic }}"></a>
+					<h4><a href="/{{ goods.id }}">{{ goods.gtitle|slice:'6' }}..</a></h4>
+					<a href="/{{ goods.id }}"><img src="/static/{{ goods.gpic }}"></a>
 					<div class="prize"> ¥ {{ goods.gprice }}</div>
 				</li>
                 {% endfor %}
@@ -187,12 +187,12 @@
 			<div class="subtitle fl">
 				<span>|</span>
                 {% for list in list3 %}
-				<a href="#">{{ list.gtitle|slice:'8' }}..</a>
+				<a href="/{{ list.id }}">{{ list.gtitle|slice:'8' }}..</a>
 {#				<a href="#">加州提子</a>#}
 {#				<a href="#">亚马逊牛油果</a>#}
                 {% endfor %}
 			</div>
-			<a href="#" class="goods_more fr">查看更多 ></a>
+			<a href="/list4_1/" class="goods_more fr">查看更多 ></a>
 		</div>
 
 		<div class="goods_con clearfix">
@@ -200,8 +200,8 @@
 			<ul class="goods_list fl">
                 {% for goods in list31 %}
 				<li>
-					<h4><a href="#">{{ goods.gtitle|slice:"8" }}..</a></h4>
-					<a href="#"><img src="/static/{{ goods.gpic }}"></a>
+					<h4><a href="/{{ goods.id }}">{{ goods.gtitle|slice:"8" }}..</a></h4>
+					<a href="/{{ goods.id }}"><img src="/static/{{ goods.gpic }}"></a>
 					<div class="prize">¥ {{ goods.gprice }}</div>
 				</li>
                 {% endfor %}
@@ -230,12 +230,12 @@
 			<div class="subtitle fl">
 				<span>|</span>
                 {% for list in list4 %}
-				<a href="#">{{ list.gtitle|slice:'8' }}..</a>
+				<a href="/{{ list.id }}">{{ list.gtitle|slice:'8' }}..</a>
 {#				<a href="#">加州提子</a>#}
 {#				<a href="#">亚马逊牛油果</a>#}
                 {% endfor %}
 			</div>
-			<a href="#" class="goods_more fr">查看更多 ></a>
+			<a href="/list5_1/" class="goods_more fr">查看更多 ></a>
 		</div>
 
 		<div class="goods_con clearfix">
@@ -243,8 +243,8 @@
 			<ul class="goods_list fl">
                 {% for goods in list41 %}
 				<li>
-					<h4><a href="#">{{ goods.gtitle|slice:"8" }}..</a></h4>
-					<a href="#"><img src="/static/{{ goods.gpic }}"></a>
+					<h4><a href="/{{ goods.id }}">{{ goods.gtitle|slice:"8" }}..</a></h4>
+					<a href="/{{ goods.id }}"><img src="/static/{{ goods.gpic }}"></a>
 					<div class="prize">¥ {{ goods.gprice }}</div>
 				</li>
                 {% endfor %}
@@ -273,12 +273,12 @@
 			<div class="subtitle fl">
 				<span>|</span>
                 {% for list in list5 %}
-				<a href="#">{{ list.gtitle|slice:"6" }}..</a>
+				<a href="/{{ list.id }}">{{ list.gtitle|slice:"6" }}..</a>
 {#				<a href="#">加州提子</a>#}
 {#				<a href="#">亚马逊牛油果</a>#}
                 {% endfor %}
 			</div>
-			<a href="#" class="goods_more fr">查看更多 ></a>
+			<a href="/list6_1/" class="goods_more fr">查看更多 ></a>
 		</div>
 
 		<div class="goods_con clearfix">
@@ -286,8 +286,8 @@
 			<ul class="goods_list fl">
                 {% for goods in list51 %}
 				<li>
-					<h4><a href="#">{{ goods.gtitle|slice:'6' }}..</a></h4>
-					<a href="#"><img src="/static/{{ goods.gpic }}"></a>
+					<h4><a href="/{{ goods.id }}">{{ goods.gtitle|slice:'6' }}..</a></h4>
+					<a href="/{{ goods.id }}"><img src="/static/{{ goods.gpic }}"></a>
 					<div class="prize">¥ {{ goods.gprice }}</div>
 				</li>
                 {% endfor %}

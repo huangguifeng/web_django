@@ -3,4 +3,5 @@ from . import views
 
 urlpatterns=[
     url(r'^$', views.carts),
+    url(r"^addcart/$",views.addcart),
 ]

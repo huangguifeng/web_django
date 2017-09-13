@@ -1,10 +1,10 @@
 $(function(){
 
-	var error_name = true;
-	var error_password = true;
-	var error_check_password = true;
-	var error_email = true;
-	var error_check = true;
+	var error_name = false;
+	var error_password = false;
+	var error_check_password = false;
+	var error_email = false;
+	var error_check = false;
 
 
 	$('#user_name').blur(function() {
@@ -49,7 +49,7 @@ $(function(){
 		}
 		else
 		{
-			$.get('/namebj/',{'name':valu},function(data){
+			$.get('/user/namebj/',{'name':valu},function(data){
 			    console.log(data)
 			if (data['data']==1) {
                 $('#user_name').next().hide();
@@ -107,7 +107,7 @@ $(function(){
         var valu=$('#email').val()
 		if(re.test($('#email').val()))
         {
-		    $.get('/emailbj/',{'email':valu},function(data){
+		    $.get('/user/emailbj/',{'email':valu},function(data){
 			    if (data['data']==1) {
 			        $('#email').next().hide();
 			        error_email = false;}
@@ -142,10 +142,6 @@ $(function(){
 		}
 
 	});
-
-
-
-
 
 
 

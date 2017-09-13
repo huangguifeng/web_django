@@ -1,3 +1,4 @@
+from hashlib import sha1
 
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
@@ -11,7 +12,6 @@ from PIL import Image, ImageDraw, ImageFont
 
 # 注册
 def register(request):
-
     title = '天天生鲜-注册'
     context = {"title":title}
     return render(request, 'tt_user/register.html', context)
@@ -42,22 +42,23 @@ def create (request):
         return HttpResponse('注册失败')
     else:
         upwd = user_info.get('cpwd')
+        s1=sha1()
+        s1.update(upwd.encode('utf-8'))
+        upwd_sha1=s1.hexdigest()
         u_email = user_info.get('email')
-        user = UserInfo.users.create_user(uname, upwd, u_email)
+        user = UserInfo.users.create_user(uname,upwd_sha1,u_email)
         user.save()
-        msg = '<a href="http://127.0.0.1:8000/active/?u_email=%s" target="_blank">点击激活</a>' % u_email
+        msg = '<a href="http://127.0.0.1:8000/user/active%s/" target="_blank">点击激活</a>' %(user.id)
         send_mail('注册激活', '', settings.EMAIL_FROM,
                   [u_email],
                   html_message=msg)
-        return HttpResponse('ok')
+        return HttpResponse('用户注册成功，请到邮箱中激活')
 
-def active(request):
-    ff=request.GET
-    u_email=ff.get('u_email')
-    list = UserInfo.users.get(uemail=u_email)
+def active(request,uid):
+    list = UserInfo.users.get(id=uid)
     list.isActive=True
     list.save()
-    return HttpResponse('激活')
+    return HttpResponse('激活成功')
 def abb (request):
     list = UserInfo.users.get(uname='admin1234')
     if list:
@@ -128,8 +129,11 @@ def user_login(request):
     if yzm.lower()==request.session['verifycode'].lower():
         u_name=list['username']
         u_pwd=list['pwd']
+        s1=sha1()
+        s1.update(u_pwd.encode('utf-8'))
+        obb=s1.hexdigest()
         ob=UserInfo.users.get(uname=u_name).upwd
-        if u_pwd==ob:
+        if obb==ob:
             response=render(request,'tt_goods/index.html')
             response.set_cookie('name',u_name)
             request.session['uname']=u_name
@@ -138,6 +142,12 @@ def user_login(request):
             context={'data':"alert('密码不正确请重新登录')"}
             return  render(request,'tt_user/login.html',context)
     else:
-
         context = {'data': "alert('验证码错误')","title":"天天生鲜-登录"}
         return render(request,'tt_user/login.html',context)
+
+# 用户中心
+def center_info(request):
+
+    return render(request,'tt_user/user_center_info.html',{'title':'天天生鲜-用户中心'})
+# def center_info (request):
+#     return redirect('/tt_user/user_center_info.html')

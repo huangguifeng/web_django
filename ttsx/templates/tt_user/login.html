@@ -3,10 +3,9 @@
     <script>
     $(function(){
         {{ data|safe }}
-{#        $('input_submit').attr('disabled',true)#}
         $('.name_input').blur(function(){
             var valu=$('.name_input').val();
-            $.get('/namech/',{'name':valu},function(data){
+            $.get('/user/namech/',{'name':valu},function(data){
 			    if (data['data']==1) {
 			        $('.name_input').next().hide();
 			        $('.input_submit').prop('disabled',false);
@@ -23,16 +22,17 @@
            $('.yzm').attr('src',$('.yzm').attr('src')+1)
 
        })
-        $('input_submit').submit(function(){return true
+            $('input_submit').submit(function(){return true
         })
-        if($('.rem').is(':check')){
-            $('.name_input').attr('autocomplete','on')
-            $('.pass_input').attr('autocomplete','on')
+        $('.rem').click(function() {
+        if ($('.rem').is(':checked')){
+            $('.name_input').attr('autocomplete','on');
+            $('.pass_input').attr('autocomplete','on');
         }
-        else{
-            $('.name_input').attr('autocomplete','off')
-            $('.pass_input').attr('autocomplete','off')
-        }
+        else {
+            $('.name_input').attr('autocomplete','off');
+            $('.pass_input').attr('autocomplete','off');
+        }   })
     })
     </script>
 {% endblock head %}
@@ -48,20 +48,20 @@
 			<div class="login_form fr">
 				<div class="login_title clearfix">
 					<h1>用户登录</h1>
-					<a href="/register/">立即注册</a>
+					<a href="/user/register/">立即注册</a>
 				</div>
 				<div class="form_input">
-					<form method="post" action="/user_login/">
-						<input type="text" name="username" class="name_input" placeholder="请输入用户名" >
+					<form method="post" action="/user/user_login/">
+						<input type="text" name="username" class="name_input" placeholder="请输入用户名"  >
 						<div class="user_error">输入错误</div>
 						<input type="password" name="pwd" class="pass_input" placeholder="请输入密码" >
 						<div class="pwd_error">输入错误</div>
-                        <input class="syzm" type="text" name="yzm"><img class="yzm" width=100px height=36px  src="/verify_code/?1" alt="">
-                        <a class="aaa" href="#">眼瞎，换一个</a>
+                        <input class="syzm" type="text" name="yzm"><img class="yzm" width=100px height=36px  src="/user/verify_code/?1" alt="">
+                        <a class="aaa" href="#">看不清，换一个</a>
                         <div class="more_input clearfix">
-							<input type="checkbox" name="" class="rem">
+							<input type="checkbox" name="" class="rem" checked="checked">
 							<label>记住用户名</label>
-							<a href="/register/">忘记密码</a>
+							<a href="/user/register/">忘记密码</a>
 						</div>
 						<input type="submit" name="" value="登录" class="input_submit" >
 					</form>

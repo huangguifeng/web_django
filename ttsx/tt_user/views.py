@@ -3,7 +3,7 @@ from hashlib import sha1
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 # Create your views here.
-from tt_user.models import UserInfo
+from tt_user.models import UserInfo, UserAddressInfo
 from django.conf import settings
 from django.core.mail import send_mail
 from django.http import HttpResponse
@@ -59,12 +59,6 @@ def active(request,uid):
     list.isActive=True
     list.save()
     return HttpResponse('激活成功')
-def abb (request):
-    list = UserInfo.users.get(uname='admin1234')
-    if list:
-        return HttpResponse(list)
-    else:
-        return HttpResponse(list)
 
 # 登录
 def namech (request):
@@ -146,8 +140,27 @@ def user_login(request):
         return render(request,'tt_user/login.html',context)
 
 # 用户中心
+def center_site (request):
+    c_user=request.COOKIES.get('name')
+    o_user=UserAddressInfo.objects.filter(user=c_user)
+    curadr=o_user.uaddress+'    '+(o_user.uname+'     收')+'  '+o_user.uphone
+    return render (request,'tt_user/user_center_site.html',{'title':'天天生鲜-用户中心','curadr':curadr})
 def center_info(request):
-
     return render(request,'tt_user/user_center_info.html',{'title':'天天生鲜-用户中心'})
-# def center_info (request):
-#     return redirect('/tt_user/user_center_info.html')
+def center_order(request):
+    return render(request, 'tt_user/user_center_order.html', {'title': '天天生鲜-用户中心'})
+def user_addr(request):
+    list=request.POST
+    name=list.get('name')
+    addr=list.get('addr')
+    phone_num=list.get('phone_num')
+    user=request.COOKIES.get('name')
+    useraddr=UserAddressInfo()
+    useraddr.uname=name
+    useraddr.uaddress=addr
+    useraddr.uphone=phone_num
+    useraddr.user=user
+    useraddr.save()
+
+
+

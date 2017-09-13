@@ -39,7 +39,8 @@ $(function(){
 
 
 	function check_user_name(){
-		var len = $('#user_name').val().length;
+		var valu=$('#user_name').val()
+		var len =valu.length;
 		if(len<5||len>20)
 		{
 			$('#user_name').next().html('请输入5-20个字符的用户名')
@@ -48,12 +49,25 @@ $(function(){
 		}
 		else
 		{
-			$('#user_name').next().hide();
+			$.get('/user/namebj/',{'name':valu},function(data){
+			    console.log(data)
+			if (data['data']==1) {
+                $('#user_name').next().hide();
+                error_name = false;  }
+             else if (data['data']==0) {
+				$('#user_name').next().html('用户名已存在')
+			    $('#user_name').next().show();
+			error_name = true;
+			}
+
+			},'json')
+            $('#user_name').next().hide();
 			error_name = false;
 		}
 	}
 
 	function check_pwd(){
+
 		var len = $('#pwd').val().length;
 		if(len<8||len>20)
 		{
@@ -83,18 +97,25 @@ $(function(){
 		{
 			$('#cpwd').next().hide();
 			error_check_password = false;
+
 		}		
 		
 	}
 
 	function check_email(){
 		var re = /^[a-z0-9][\w\.\-]*@[a-z0-9\-]+(\.[a-z]{2,5}){1,2}$/;
-
+        var valu=$('#email').val()
 		if(re.test($('#email').val()))
-		{
-			$('#email').next().hide();
-			error_email = false;
-		}
+        {
+		    $.get('/user/emailbj/',{'email':valu},function(data){
+			    if (data['data']==1) {
+			        $('#email').next().hide();
+			        error_email = false;}
+			    else if(data['data']==0){
+			        $('#email').next().html('你输入的邮箱已存在')
+			        $('#email').next().show();
+			        error_check_password = true;}           })
+        }
 		else
 		{
 			$('#email').next().html('你输入的邮箱格式不正确')
@@ -121,10 +142,6 @@ $(function(){
 		}
 
 	});
-
-
-
-
 
 
 

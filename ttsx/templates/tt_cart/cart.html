@@ -20,7 +20,9 @@
             function fn_num_zong() {
                 num_zong = 0;
                 $('.num_show').each(function (i) {
-                    num_zong += parseInt($('.num_show').eq(i).val());
+                    if ($('.cart_list_td .col01 input').eq(i).prop('checked')) {
+                        num_zong += parseInt($('.num_show').eq(i).val());
+                    }
                 });
                 $('.settlements .col03 b').html(num_zong);
                 return num_zong;
@@ -192,6 +194,10 @@
                 });
                 $('.settlements .col03 em').html(sprice_zong.toFixed(2));
                 $('.settlements .col03 b').html(snum_zong);
+                $(this).parent().parent().find('.num_show').val(0);
+                total = $('.total_count').find('em').html();
+                total = parseInt(total) - 1;
+                $('.total_count').find('em').html(total);
             });
 
 

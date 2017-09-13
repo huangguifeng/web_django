@@ -1,5 +1,26 @@
 {% extends 'base_top.html' %}
-
+{% block head %}
+    <script type="text/javascript">
+       $(function(){
+           var total = 0;//商品小计
+           var total1 = 0; //商品总计
+           var total2 = 0; //商品总金额
+           var total_pay = 0; //实付款
+           $('.col07').each(function () {
+               var count1 = parseInt($(this).prev().text());
+               var price = parseFloat($(this).prev().prev().children('span').text());
+               total = count1*price;
+               $(this).text(total.toFixed(2)+'元');
+               total1++;
+               total2+=total;
+           });
+           total_pay = total2 + 10;
+           $('.total_goods_count').children('em').text(total1);
+           $('.total_goods_count').children('b').text(total2+'元');
+           $('.total_pay').children('b').text(total_pay+'元');
+       })
+    </script>
+{% endblock head %}
 {% block middle_com %}
 
 	<div class="search_bar clearfix">
@@ -46,37 +67,32 @@
 			<li class="col04">数量</li>
 			<li class="col05">小计</li>
 		</ul>
-		<ul class="goods_list_td clearfix">
-			<li class="col01">1</li>
-			<li class="col02"><img src="/static/images/goods/goods012.jpg"></li>
-			<li class="col03">奇异果</li>
-			<li class="col04">500g</li>
-			<li class="col05">25.80元</li>
-			<li class="col06">1</li>
-			<li class="col07">25.80元</li>
+
+        {% for g in goodsList %}
+        <ul class="goods_list_td clearfix">
+            <li class="col01">{{ forloop.counter }}</li>
+			<li class="col02"><img src="/static/images/{{ g.goods.gpic }}"></li>
+			<li class="col03">{{ g.goods.gtitle|slice:'14' }}</li>
+			<li class="col04">{{ g.goods.gunit }}</li>
+			<li class="col05"><span>{{ g.goods.gprice }}</span>元</li>
+			<li class="col06">{{ g.count }}</li>
+			<li class="col07"></li>
 		</ul>
-		<ul class="goods_list_td clearfix">
-			<li class="col01">2</li>
-			<li class="col02"><img src="/static/images/goods/goods003.jpg"></li>
-			<li class="col03">大兴大棚草莓</li>
-			<li class="col04">500g</li>
-			<li class="col05">16.80元</li>
-			<li class="col06">1</li>
-			<li class="col07">16.80元</li>
-		</ul>
+        {% endfor %}
+
 	</div>
 
 	<h3 class="common_title">总金额结算</h3>
 
 	<div class="common_list_con clearfix">
 		<div class="settle_con">
-			<div class="total_goods_count">共<em>2</em>件商品，总金额<b>42.60元</b></div>
+			<div class="total_goods_count">共<em></em>件商品，总金额<b></b></div>
 			<div class="transit">运费：<b>10元</b></div>
-			<div class="total_pay">实付款：<b>52.60元</b></div>
+			<div class="total_pay">实付款：<b></b></div>
 		</div>
 	</div>
 
 	<div class="order_submit clearfix">
-		<a href="javascript:;" id="order_btn">提交订单</a>
+		<a href="/order/refer_order/" id="order_btn">提交订单</a>
 	</div>
 {% endblock middle_com%}

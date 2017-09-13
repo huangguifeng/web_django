@@ -133,10 +133,12 @@ def user_login(request):
         s1.update(u_pwd.encode('utf-8'))
         obb=s1.hexdigest()
         ob=UserInfo.users.get(uname=u_name).upwd
+        id = UserInfo.users.get(uname=u_name).id
         if obb==ob:
             response=render(request,'tt_goods/index.html')
             response.set_cookie('name',u_name)
             request.session['uname']=u_name
+            request.session['id'] = id
             return response
         else :
             context={'data':"alert('密码不正确请重新登录')"}

@@ -1,6 +1,6 @@
 from django.shortcuts import render,HttpResponse
 
-from tt_car.models import CartInfo
+from  tt_cart.models import CartInfo
 from tt_user.models import UserInfo
 from .models import *
 from datetime import datetime
@@ -19,7 +19,6 @@ def orderGoods(request):
 
     # 获取编号为user_id的人的购物车对象
     carMessage = CartInfo.objects.filter(user_id=user_id)
-
     # 获取商品的信息
     for i in carMessage:
         # oneGoods=i.goods
@@ -50,11 +49,6 @@ def referOrder(request):
 
     except Exception as e:
         print('-----------%s-------------'%e)
-
-print('ok')
-i=datetime.now()
-print(i)
-strftime('%Y%m%d%H%M%S'),
 
 
 

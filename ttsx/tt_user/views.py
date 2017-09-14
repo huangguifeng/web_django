@@ -76,6 +76,7 @@ def namech (request):
         return JsonResponse({'data': 1})
     else:
         return JsonResponse({'data': 0 })
+
 def verify_code(request):
     #引入随机函数模块
     import random

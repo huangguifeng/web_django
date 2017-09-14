@@ -13,5 +13,4 @@ urlpatterns=[
     url(r'^user_login/$',views.user_login),
     url(r'^verify_code/',views.verify_code),
     url(r'^center_info/$',views.center_info),
-    url(r'verifycode/',views.verifycode)
 ]

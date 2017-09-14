@@ -57,8 +57,12 @@ def cart_num(request):
         cart_count += i.count
     return JsonResponse({'cart_count':cart_count})
 
-@decorate
+
 def cartSum(request):
-    goods = CartInfo.objects.filter(user_id=1)
-    context = {'goods':goods,'title':'天天生鲜－购物车'}
-    return render(request, 'tt_cart/cart.html', context)
+    user_id = request.session.get('id')
+    if user_id is None:
+        return redirect('/user/login/')
+    else:
+        goods = CartInfo.objects.filter(user_id=1)
+        context = {'goods':goods,'title':'天天生鲜－购物车'}
+        return render(request, 'tt_cart/cart.html', context)

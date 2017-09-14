@@ -177,30 +177,7 @@
                 fn_count(this);
             });
 
-            {# 删除的操作 #}
-            {#            $('.cart_list_td .col08 a').click(function () {#}
-            {# 隐藏 #}
-            {#                $(this).parent().parent().hide();#}
-            {# 变动总价格 #}
-            {#                $(this).parent().parent().find('.col01 input').prop('checked', false);#}
-            {#                sprice_zong = 0;#}
-            {#                snum_zong = 0;#}
-            {#                $('.cart_list_td .col01 input').each(function (i) {#}
-            {# 勾选的才计算 #}
-            {#                    if ($('.cart_list_td .col01 input').eq(i).prop('checked')) {#}
-            {#                        sprice_zong += parseFloat(fn_count_num($('.num_show').eq(i)));#}
-            {#                        snum_zong += parseInt(fn_value($('.num_show').eq(i)));#}
-            {#                    }#}
-            {#                });#}
-            {#                $('.settlements .col03 em').html(sprice_zong.toFixed(2));#}
-            {#                $('.settlements .col03 b').html(snum_zong);#}
-            {#                $(this).parent().parent().find('.num_show').val(0);#}
-            {#                total = $('.total_count').find('em').html();#}
-            {#                total = parseInt(total) - 1;#}
-            {#                $('.total_count').find('em').html(total);#}
-            {#            });#}
-
-            {# 删除 #}
+                {#删除商品#}
             $('.cart_list_td .col08 a').click(function () {
                 $(this).parent().parent().remove();
                 fn_num_zong();
@@ -213,6 +190,8 @@
                     }
                 });
                 $('.settlements .col03 em').html(sprice_zong.toFixed(2));
+
+
             });
 
 
@@ -248,38 +227,21 @@
     {% for igoods in goods %}
         <ul class="cart_list_td clearfix">
             <li class="col01"><input type="checkbox" name="" checked></li>
-            <li class="col02"><img src="/static/{{ igoods.gpic }}"></li>
-            <li class="col03">{{ igoods.gtitle }}<br><em>{{ igoods.gprice }}元/{{ igoods.gunit }}</em></li>
-            <li class="col04">{{ igoods.gunit }}</li>
-            <li class="col05">{{ igoods.gprice }}元</li>
+            <li class="col02"><img src="/static/{{ igoods.goods.gpic }}"></li>
+            <li class="col03">{{ igoods.goods.gtitle }}<br><em>{{ igoods.goods.gprice }}元/{{ igoods.gunit }}</em></li>
+            <li class="col04">{{ igoods.goods.gunit }}</li>
+            <li class="col05">{{ igoods.goods.gprice }}元</li>
             <li class="col06">
                 <div class="num_add">
                     <a href="javascript:;" class="add fl">+</a>
-                    <input type="text" class="num_show fl" value="1">
+                    <input type="text" class="num_show fl" value="{{ igoods.count }}">
                     <a href="javascript:;" class="minus fl">-</a>
                 </div>
             </li>
-            <li class="col07">{{ igoods.gprice }}元</li>
+            <li class="col07">{{ igoods.goods.gprice }}元</li>
             <li class="col08"><a href="javascript:;">删除</a></li>
         </ul>
     {% endfor %}
-    {#    <ul class="cart_list_td clearfix">#}
-    {#        <li class="col01"><input type="checkbox" name="" checked></li>#}
-    {#        <li class="col02"><img src="/static/images/goods/goods003.jpg"></li>#}
-    {#        <li class="col03">大兴大棚草莓<br><em>16.80元/500g</em></li>#}
-    {#        <li class="col04">500g</li>#}
-    {#        <li class="col05">16.80元</li>#}
-    {#        <li class="col06">#}
-    {#            <div class="num_add">#}
-    {#                <a href="javascript:;" class="add fl">+</a>#}
-    {#                <input type="text" class="num_show fl" value="1">#}
-    {#                <a href="javascript:;" class="minus fl">-</a>#}
-    {#            </div>#}
-    {#        </li>#}
-    {#        <li class="col07">16.80元</li>#}
-    {#        <li class="col08"><a href="javascript:;">删除</a></li>#}
-    {#    </ul>#}
-
 
     <ul class="settlements">
         <li class="col01"><input type="checkbox" name="" checked></li>

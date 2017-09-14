@@ -7,7 +7,7 @@ from .models import *
 # Create your views here.
 
 
-#判断用户是否登录
+#判断用户是否登录,装饰器
 def decorate(func):
     def inner(request):
         user_id = request.session.get('id')
@@ -27,9 +27,7 @@ def addcart(request):
     dict = request.POST
     goods_id = dict.get('goods_id')
     count = dict.get('count')
-
     goods_list = CartInfo.objects.filter(user_id=user_id)
-
     exist = True
     for goods in goods_list:
         if goods.goods_id == int(goods_id):
@@ -59,21 +57,8 @@ def cart_num(request):
         cart_count += i.count
     return JsonResponse({'cart_count':cart_count})
 
-
-
-
-# def carts(request):
-    # return render(request, 'tt_cart/abc.html', abc)
-
+@decorate
 def cartSum(request):
-
-    user_list = CartInfo.objects.filter(user_id=1)
-    goods_list = []
-    for goods in user_list:
-        goods_list.append(goods.goods_id)
-
-    goods_obj = GoodsInfo.objects.filter(id__in=goods_list)
-    goods = {'goods':goods_obj}
-
-
-    return render(request, 'tt_cart/cart.html', goods)
+    goods = CartInfo.objects.filter(user_id=1)
+    context = {'goods':goods,'title':'天天生鲜－购物车'}
+    return render(request, 'tt_cart/cart.html', context)

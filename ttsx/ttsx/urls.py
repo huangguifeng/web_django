@@ -20,13 +20,8 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-<<<<<<< HEAD
     url(r'^user/',include('tt_user.urls')),
     url(r'^',include('tt_goods.urls')),
     url(r'^cart/', include('tt_cart.urls')),
     url(r'^order/',include('tt_order.urls')),
-=======
-    # url(r'^',include('tt_goods.urls')),
-    url(r'^user/', include('tt_user.urls')),
->>>>>>> 7eb373ee74eed58dd40a0ea7e60c6fcc11fb9e81
 ]

@@ -25,11 +25,9 @@
                 $(".total em").html(sum)
             });
 
-
-
-
-
-
-
+            // 获取购物车里的商品数量
+      $.post('/cart/cart_num/',function (data) {
+        $('.goods_count').html(data['cart_count'])
+    });
 
         });

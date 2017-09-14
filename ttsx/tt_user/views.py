@@ -1,16 +1,9 @@
-<<<<<<< HEAD
-from hashlib import sha1
 
+from hashlib import sha1
 from django.http import JsonResponse
-from django.shortcuts import render, redirect
-=======
 from django.shortcuts import render
-from PIL import Image, ImageDraw, ImageFont
-from django.http import HttpResponse
 import random
 from io import BytesIO
-from .models import *
->>>>>>> 7eb373ee74eed58dd40a0ea7e60c6fcc11fb9e81
 # Create your views here.
 from tt_user.models import UserInfo
 from django.conf import settings
@@ -29,7 +22,6 @@ def login(request):
     context = {"title":title}
     return render(request, 'tt_user/login.html', context)
 
-<<<<<<< HEAD
 def namebj (request):
     name=request.GET.get('name')
     list=UserInfo.users.filter(uname=name)
@@ -97,7 +89,6 @@ def verify_code(request):
     #创建画笔对象
     draw = ImageDraw.Draw(im)
     #调用画笔的point()函数绘制噪点
-=======
 
 
 def verifycode(request):
@@ -136,12 +127,12 @@ def verifycode(request):
     fontcolor = (255, random.randrange(0, 255), random.randrange(0, 255))
 
     # 噪点
->>>>>>> 7eb373ee74eed58dd40a0ea7e60c6fcc11fb9e81
+
     for i in range(0, 100):
         xy = (random.randrange(0, width), random.randrange(0, height))
         fill = (random.randrange(0, 255), 255, random.randrange(0, 255))
         draw.point(xy, fill=fill)
-<<<<<<< HEAD
+
     #定义验证码的备选值
     str1 = 'ABCD123EFGHIJK456LMNOPQRS789TUVWXYZ0'
     #随机选取4个值作为验证码
@@ -202,9 +193,8 @@ def user_login(request):
 def center_info(request):
 
     return render(request,'tt_user/user_center_info.html',{'title':'天天生鲜-用户中心'})
-# def center_info (request):
-#     return redirect('/tt_user/user_center_info.html')
-=======
+    # def center_info (request):
+    #     return redirect('/tt_user/user_center_info.html')
     x = 1
     for i in code_list:
         draw.text((16*x, 2), i, font=font, fill=fontcolor)
@@ -216,4 +206,4 @@ def center_info(request):
     # 将图片保存在内存中，文件类型为png
     im.save(buf, 'png')
     return HttpResponse(buf.getvalue(), 'image/png')
->>>>>>> 7eb373ee74eed58dd40a0ea7e60c6fcc11fb9e81
+

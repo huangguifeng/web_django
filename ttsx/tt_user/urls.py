@@ -1,5 +1,5 @@
 from django.conf.urls import include, url
-from tt_user import views
+from . import views
 
 urlpatterns=[
     url(r'^register/$',views.register),

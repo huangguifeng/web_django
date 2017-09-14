@@ -6,10 +6,10 @@
 
 //列表页点击加入购物车
 ;$(function () {
-
-
-
-
+    //
+    $.post('/cart/cart_num/',function (data) {
+        $('.goods_count').html(data['cart_count'])
+    });
 
     //点击加入购物车
     $('.add_goods').click(function () {

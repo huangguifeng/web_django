@@ -11,7 +11,6 @@ def carts(request):
 def addcart(request):
 
     user_id = request.session.get('id')
-    print(user_id)
     # 没有登录重定向到登录页
     if user_id is None:
         return JsonResponse({'error':'0','path':'/user/login/'})
@@ -39,3 +38,12 @@ def addcart(request):
         for i in user_list:
             cart_num += i.count
         return JsonResponse({'error':'1','path':'#','cart_num':cart_num})
+
+
+def cart_num(request):
+    # uid = request.session['id']
+    user_list = CartInfo.objects.filter(user_id=1)
+    cart_count = 0
+    for i in user_list:
+        cart_count += i.count
+    return JsonResponse({'cart_count':cart_count})

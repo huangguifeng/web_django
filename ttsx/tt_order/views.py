@@ -1,6 +1,7 @@
 from django.shortcuts import render,HttpResponse
+from django.utils.datetime_safe import strftime
 
-from tt_car.models import CartInfo
+from tt_cart.models import CartInfo
 from tt_user.models import UserInfo
 from .models import *
 from datetime import datetime

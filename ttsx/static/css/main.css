@@ -806,6 +806,24 @@ html, body {
     background-color: #ffeded;
 }
 
+.operate_btn .buy_btn {
+    width: 178px;
+    height: 41px;
+    border: 1px solid #c40000;
+    font-size: 14px;
+    color: #c40000;
+    line-height: 38px;
+    text-align: center;
+    background-color: #ffeded;
+    cursor: pointer;
+    outline: none;
+}
+
+
+
+
+
+
 .operate_btn .add_cart {
     background-color: #c40000;
     color: #fff;
@@ -1411,14 +1429,17 @@ html, body {
     float: right;
 }
 
-.settlements .col04 a {
+.settlements .col04 input {
     display: block;
     height: 78px;
     background-color: #ff3d3d;
     text-align: center;
     line-height: 78px;
     color: #fff;
-    font-size: 24px
+    font-size: 24px;
+    width: 100%;
+    border: none;
+
 }
 
 .common_title {

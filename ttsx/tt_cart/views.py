@@ -64,3 +64,30 @@ def cartSum(request):
         goods = CartInfo.objects.filter(user_id=1)
         context = {'goods':goods,'title':'天天生鲜－购物车'}
         return render(request, 'tt_cart/cart.html', context)
+
+# 删除一件商品
+def cart_del(request):
+    dict = request.POST
+    goods_id = dict.get('goods_id')
+    CartInfo.objects.get(goods_id=goods_id).delete()
+    return JsonResponse({'status':'ok'})
+
+
+# 修改购物车数量
+def cart_add(request):
+    dict = request.POST
+    goods_id = dict.get('goods_id')
+    goods_num = dict.get('goods_num')
+    code = dict.get('code')
+    goods = CartInfo.objects.get(goods_id=goods_id)
+    if code == "2": #减
+        if goods.count > 1:
+            goods.count -= 1
+    elif code == "1": #失去焦点
+        if 1 < int(goods_num) < 999:
+            goods.count = int(goods_num)
+    elif code == '0':#加
+        if goods.count < 999:
+            goods.count += 1
+    goods.save()
+    return JsonResponse({'status':'ok'})

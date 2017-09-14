@@ -1,14 +1,10 @@
 {% extends 'tt_cart/base_cart.html' %}
 
-
-
 {% block head %}
 
     <script src="/static/js/cart.js"></script>
 
 {% endblock head %}
-
-
 
 {% block middle_com %}
 
@@ -30,10 +26,10 @@
         <li class="col05">小计</li>
         <li class="col06">操作</li>
     </ul>
-
+    <form  action="/order/tt_order/" method="get">
     {% for igoods in goods %}
         <ul class="cart_list_td clearfix">
-            <li class="col01"><input type="checkbox" name="" checked></li>
+            <li class="col01"><input type="checkbox" name="cid" value="{{ igoods.goods.id }}" checked></li>
             <li class="col02"><img src="/static/{{ igoods.goods.gpic }}"></li>
             <li class="col03">{{ igoods.goods.gtitle }}<br><em>{{ igoods.goods.gprice }}元/{{ igoods.gunit }}</em></li>
             <li class="col04">{{ igoods.goods.gunit }}</li>
@@ -46,7 +42,12 @@
                 </div>
             </li>
             <li class="col07">元</li>
-            <li class="col08"><a href="javascript:;">删除</a></li>
+            <li class="col08">
+                <a href="javascript:;">删除</a>
+                <input type="hidden" name="" value="{{ igoods.goods.id }}">
+
+            </li>
+
         </ul>
     {% endfor %}
 
@@ -54,6 +55,7 @@
         <li class="col01"><input type="checkbox" name="" checked></li>
         <li class="col02">全选</li>
         <li class="col03">合计(不含运费)：<span>¥</span><em>42.60</em><br>共计<b>2</b>件商品</li>
-        <li class="col04"><a href="place_order.html">去结算</a></li>
+        <li class="col04"><input type="submit" value="去结算" ></li>
     </ul>
+    </form>
 {% endblock middle_com %}

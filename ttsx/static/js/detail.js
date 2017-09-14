@@ -1,13 +1,10 @@
 /**
  * Created by python on 17-9-13.
  */
-<<<<<<< HEAD
- $(function () {
-            //  加减的点击事件
-=======
+
         ;$(function () {
              // 加减的点击事件
->>>>>>> 8ad86d1025e14d034443174e9e2e215a81737dcf
+
             var value = $(".num_show").val();
             value = parseInt(value);
             $('.num_add').delegate('a', 'click', function () {
@@ -22,20 +19,19 @@
                 $('.num_show').val(value);
 
 
-<<<<<<< HEAD
+
                 //  总价的计算
-=======
+
                 // 总价的计算
->>>>>>> 8ad86d1025e14d034443174e9e2e215a81737dcf
+
                 var price = $(".show_pirze em").html();
                 price = parseFloat(price);
                 var sum = value *price;
                 sum = sum.toFixed(2);
                 $(".total em").html(sum)
             });
-<<<<<<< HEAD
         });
-=======
+
 
             // 获取购物车里的商品数量
       $.post('/cart/cart_num/',function (data) {
@@ -87,5 +83,4 @@
                 }
             })
         });
-    });
->>>>>>> 8ad86d1025e14d034443174e9e2e215a81737dcf
+

@@ -57,7 +57,7 @@ def cart_num(request):
         cart_count += i.count
     return JsonResponse({'cart_count':cart_count})
 
-@decorate
+
 def cartSum(request):
     goods = CartInfo.objects.filter(user_id=1)
     context = {'goods':goods,'title':'天天生鲜－购物车'}

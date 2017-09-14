@@ -58,6 +58,8 @@
             <div class="total">总价：<em>{{ goods.gprice }}</em></div>
             <div class="operate_btn">
                 <a href="javascript:;" class="buy_btn">立即购买</a>
+                <div class="move_cart"></div>
+                <input type="hidden" name="goods_id" value="{{ goods.id }}">
                 <a href="javascript:;" class="add_cart" id="add_cart">加入购物车</a>
             </div>
         </div>
@@ -75,7 +77,10 @@
                             <div class="prize">￥ {{ goods.gprice }}</div>
                         </li>
                     {% endfor %}
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8ad86d1025e14d034443174e9e2e215a81737dcf
                 </ul>
             </div>
         </div>

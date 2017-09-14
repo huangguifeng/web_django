@@ -16,9 +16,17 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 
+
+
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^user/',include('tt_user.urls')),
     url(r'^',include('tt_goods.urls')),
+<<<<<<< HEAD
     url(r'^user/', include('tt_user.urls')),
     #url(r'^search/',include('haystack.urls')),
+=======
+    url(r'^cart/', include('tt_cart.urls')),
+    url(r'^order/',include('tt_order.urls')),
+>>>>>>> 8ad86d1025e14d034443174e9e2e215a81737dcf
 ]

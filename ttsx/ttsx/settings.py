@@ -37,8 +37,14 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'tt_user',
     'tt_goods',
+<<<<<<< HEAD
     'haystack',
+=======
+    'tt_cart',
+    'tt_order'
+>>>>>>> 8ad86d1025e14d034443174e9e2e215a81737dcf
 )
 
 MIDDLEWARE_CLASSES = (
@@ -82,7 +88,7 @@ DATABASES = {
         'NAME': "web_django",
         'HOST':'localhost',
         'PASSWORD':'mysql',
-        'PORT':3306,
+        'PORT':'3306',
         'USER':'root'
 
     }
@@ -113,6 +119,7 @@ STATICFILES_DIRS=[
 
 MEDIA_ROOT=os.path.join(BASE_DIR,"static/media")
 
+<<<<<<< HEAD
 HAYSTACK_CONNECTIONS = {
     'default': {
         #使用whoosh引擎
@@ -123,3 +130,14 @@ HAYSTACK_CONNECTIONS = {
 }
 #当添加、修改、删除数据时，自动生成索引
 HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+=======
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.163.com'
+EMAIL_PORT = 25
+#发送邮件的邮箱
+EMAIL_HOST_USER = '13423735326@163.com'
+#在邮箱中设置的客户端授权密码
+EMAIL_HOST_PASSWORD = 'qq821518245'
+#收件人看到的发件人
+EMAIL_FROM = 'python<13423735326@163.com>'
+>>>>>>> 8ad86d1025e14d034443174e9e2e215a81737dcf

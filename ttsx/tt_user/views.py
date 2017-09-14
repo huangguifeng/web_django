@@ -90,6 +90,9 @@ def verify_code(request):
     #创建画笔对象
     draw = ImageDraw.Draw(im)
     #调用画笔的point()函数绘制噪点
+
+
+
     #定义验证码的备选值
     str1 = 'ABCD123EFGHIJK456LMNOPQRS789TUVWXYZ0'
     #随机选取4个值作为验证码

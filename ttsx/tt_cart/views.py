@@ -1,5 +1,3 @@
-from tt_cart.models import *
-from tt_goods.models import *
 
 from django.shortcuts import render,redirect
 from django.http import HttpResponse,JsonResponse

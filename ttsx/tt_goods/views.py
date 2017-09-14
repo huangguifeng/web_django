@@ -79,7 +79,7 @@ def detail(request,gid):
 #         context['title']='搜索'
 #         context['cart_count']=list(self.request)
 #         return context
-#
+
 def admin(request):
     pass
 

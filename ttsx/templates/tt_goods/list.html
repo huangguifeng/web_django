@@ -80,12 +80,14 @@
                     </li>
                 {% endfor %}
             </ul>
+
             <div class="pagenation">
 
                 {% if goodslist.has_previous %}
                     <a href="/list{{ tid }}_{{ goodslist.previous_page_number }}_{{ sort }}/" class="active">上一页</a>
                 {% else %}
                     <a href="/list{{ tid }}_1_{{ sort }}/" class="active">上一页</a>
+
                 {% endif %}
                 {% for pindex in goodslist.paginator.page_range %}
                     <a href="/list{{ tid }}_{{ pindex }}_{{ sort }}/" class="active">{{ pindex }}</a>
@@ -101,3 +103,5 @@
         </div>
     </div>>
 {% endblock middle_com %}
+
+

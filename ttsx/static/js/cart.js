@@ -128,6 +128,16 @@ $(function () {
         $('.settlements .col03 em').html(sprice_zong.toFixed(2));
         $('.settlements .col03 b').html(snum_zong);
 
+        var goods_num = $(this).val();
+        console.log(goods_num)
+        var goods_id = $(this).parent().parent().parent().find('.col08 input').val();
+         $.post('/cart/cart_add/',{'goods_id':goods_id,"goods_num":goods_num,'code':1},function (data) {
+
+             //回调函数
+
+        });
+
+
     });
 
 
@@ -150,6 +160,14 @@ $(function () {
         }
         // {# 小计价格 #}
         fn_count(this);
+        var goods_id = $(this).parent().parent().parent().find('.col08 input').val();
+         $.post('/cart/cart_add/',{'goods_id':goods_id,'goods_num':1,'code':0},function (data) {
+
+             //回调函数
+        });
+
+
+
     });
 
     // {# 点击减号 计算 #}
@@ -171,14 +189,25 @@ $(function () {
         }
         // {# 小计价格 #}
         fn_count(this);
+
+
+        // /点击减号，数据库删除一件商品
+        var goods_id = $(this).parent().parent().parent().find('.col08 input').val();
+         $.post('/cart/cart_add/',{'goods_id':goods_id,'goods_num':1,'code':2},function (data) {
+
+             //回调函数
+
+        });
+
+
     });
 
     // {#删除商品#}
     $('.cart_list_td .col08 a').click(function () {
         $(this).parent().parent().remove();
-        fn_num_zong();
-        fn_sumList();
-        var sprice_zong = 0;
+        fn_num_zong();  //总数计算
+        fn_sumList();　　//商品件数
+        var sprice_zong = 0;　//金额
         $('.cart_list_td .col01 input').each(function (i) {
             // {# 勾选的才计算 #}
             if ($('.cart_list_td .col01 input').eq(i).prop('checked')) {
@@ -186,6 +215,12 @@ $(function () {
             }
         });
         $('.settlements .col03 em').html(sprice_zong.toFixed(2));
+        //点击删除　购物车的商品
+        var goods_id = $(this).next().val();
+        $.post('/cart/cart_del/',{'goods_id':goods_id},function (data) {
+            //回调函数
+
+        });
 
     });
 

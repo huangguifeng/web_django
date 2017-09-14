@@ -71,14 +71,15 @@ def detail(request,gid):
         respose.set_cookie('goods_id',gid)
     return respose
 
-from haystack.views import SearchView
-class Search(SearchView):
-    def extra_context(self):
-        context = super(Search,self).extra_context()
-        context['title']='搜索'
-        context['cart_count']=list(self.request)
-        return context
+# from haystack.views import SearchView
 
+# class Search(SearchView):
+#     def extra_context(self):
+#         context = super(Search,self).extra_context()
+#         context['title']='搜索'
+#         context['cart_count']=list(self.request)
+#         return context
+#
 def admin(request):
     pass
 

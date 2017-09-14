@@ -39,7 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'tt_user',
     'tt_goods',
-    'haystack',
+    # 'haystack',
     'tt_cart',
     'tt_order'
 )

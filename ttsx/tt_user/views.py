@@ -59,7 +59,13 @@ def active(request,uid):
     list.isActive=True
     list.save()
     return HttpResponse('激活成功')
-
+def abb (request):
+    abc= UserInfo.users.filter(uname='admin1234')
+    print(abc)
+    if abc is None:
+        return HttpResponse(11)
+    else:
+        return HttpResponse(abc)
 # 登录
 def namech (request):
     na_me = request.GET.get('name')
@@ -127,10 +133,11 @@ def user_login(request):
         s1.update(u_pwd.encode('utf-8'))
         obb=s1.hexdigest()
         ob=UserInfo.users.get(uname=u_name).upwd
+        id=UserInfo.users.get(uname=u_name).id
         if obb==ob:
             response=render(request,'tt_goods/index.html')
             response.set_cookie('name',u_name)
-            request.session['uname']=u_name
+            request.session['id'] = id
             return response
         else :
             context={'data':"alert('密码不正确请重新登录')"}
@@ -141,26 +148,36 @@ def user_login(request):
 
 # 用户中心
 def center_site (request):
-    c_user=request.COOKIES.get('name')
-    o_user=UserAddressInfo.objects.filter(user=c_user)
-    curadr=o_user.uaddress+'    '+(o_user.uname+'     收')+'  '+o_user.uphone
-    return render (request,'tt_user/user_center_site.html',{'title':'天天生鲜-用户中心','curadr':curadr})
+    id=request.session.get('id')
+    ouser=UserAddressInfo.objects.filter(user=id)
+    if ouser :
+        cou= UserAddressInfo.objects.count()
+        print(cou)
+        o_user=ouser[cou-1]
+        curadr=o_user.uaddress+' &emsp;&emsp;&emsp;&emsp; '+(o_user.uname+'&emsp;收')+' &emsp;&emsp;&emsp;&emsp;电话 '+o_user.uphone
+        return render(request,'tt_user/user_center_site.html',{'title':'天天生鲜-用户中心','curadr':curadr,'addr':'当前地址'})
+    else :
+        return render (request,'tt_user/user_center_site.html',{'title':'天天生鲜-用户中心','addr':'请编辑地址'})
 def center_info(request):
     return render(request,'tt_user/user_center_info.html',{'title':'天天生鲜-用户中心'})
 def center_order(request):
     return render(request, 'tt_user/user_center_order.html', {'title': '天天生鲜-用户中心'})
 def user_addr(request):
-    list=request.POST
-    name=list.get('name')
-    addr=list.get('addr')
-    phone_num=list.get('phone_num')
-    user=request.COOKIES.get('name')
-    useraddr=UserAddressInfo()
-    useraddr.uname=name
-    useraddr.uaddress=addr
-    useraddr.uphone=phone_num
-    useraddr.user=user
-    useraddr.save()
+    userlist=request.POST
+    name=userlist.get('name')
+    addr=userlist.get('addr')
+    phone_num=userlist.get('phonenum')
+    if name=='' or addr =='' or phone_num=='':
+        return render(request,'tt_user/user_center_site.html',{'no_null':'alert("收件人，详细地址和联系电话不能为空")'})
+    else:
+        Id=request.session.get('id')
+        useraddr=UserAddressInfo()
+        useraddr.uname=name
+        useraddr.uaddress=addr
+        useraddr.uphone=phone_num
+        useraddr.user_id=Id
+        useraddr.save()
+        return redirect('/user/center_site/')
 
 
 

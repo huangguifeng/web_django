@@ -40,13 +40,13 @@
 
         var url = $(this).parent().siblings('a').attr('href');
         goods_id = url.split('/');
-        // console.log(goods_id)
+        console.log(goods_id);
         $.post('/cart/addcart/',{'goods_id':goods_id[1],'count':1},function (data) {
                  //加入购物车回调
             if (data['error']==0){
                 window.location.href=data['path']
             }else {
-                console.log(data['cart_num'])
+                console.log(data['cart_num']);
                 $('.goods_count').html(data['cart_num'])
             }
         })

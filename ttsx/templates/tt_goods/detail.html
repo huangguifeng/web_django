@@ -3,7 +3,6 @@
 {% block head %}
     <script src="/static/js/detail.js"></script>
 {% endblock head %}
-
 {% block middle_com %}
     <div class="navbar_con">
         <div class="navbar clearfix">
@@ -11,12 +10,12 @@
                 <h1>全部商品分类</h1>
                 <span></span>
                 <ul class="subnav">
-                    <li><a href="/list1_1/" class="fruit">新鲜水果</a></li>
-                    <li><a href="/list2_1/" class="seafood">海鲜水产</a></li>
-                    <li><a href="/list3_1/" class="meet">猪牛羊肉</a></li>
-                    <li><a href="/list4_1/" class="egg">禽类蛋品</a></li>
-                    <li><a href="/list5_1/" class="vegetables">新鲜蔬菜</a></li>
-                    <li><a href="/list6_1/" class="ice">速冻食品</a></li>
+                    <li><a href="/list1_1_1/" class="fruit">新鲜水果</a></li>
+                    <li><a href="/list2_1_1/" class="seafood">海鲜水产</a></li>
+                    <li><a href="/list3_1_1/" class="meet">猪牛羊肉</a></li>
+                    <li><a href="/list4_1_1/" class="egg">禽类蛋品</a></li>
+                    <li><a href="/list5_1_1/" class="vegetables">新鲜蔬菜</a></li>
+                    <li><a href="/list6_1_1/" class="ice">速冻食品</a></li>
                 </ul>
             </div>
             <ul class="navlist fl">
@@ -30,9 +29,9 @@
     </div>
 
     <div class="breadcrumb">
-        <a href="#">全部分类</a>
+        <a href="/">全部分类</a>
         <span>></span>
-        <a href="/list{{ goods.gtype.id }}_1/">{{ goods.gtype }}</a>
+        <a href="/list{{ goods.gtype.id }}_1_1/">{{ goods.gtype }}</a>
         <span>></span>
         <a href="#">商品详情</a>
     </div>

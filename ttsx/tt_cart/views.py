@@ -55,6 +55,14 @@ def cart_num(request):
     # return render(request, 'tt_cart/abc.html', abc)
 
 def cartSum(request):
-    goods_obj = GoodsInfo.objects.filter(id__gt=26).filter(id__lt=31)
+
+    user_list = CartInfo.objects.filter(user_id=1)
+    goods_list = []
+    for goods in user_list:
+        goods_list.append(goods.goods_id)
+
+    goods_obj = GoodsInfo.objects.filter(id__in=goods_list)
     goods = {'goods':goods_obj}
+
+
     return render(request, 'tt_cart/cart.html', goods)

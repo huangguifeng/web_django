@@ -1,5 +1,5 @@
 from hashlib import sha1
-
+from django.contrib import auth
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 # Create your views here.
@@ -8,6 +8,7 @@ from django.conf import settings
 from django.core.mail import send_mail
 from django.http import HttpResponse
 from PIL import Image, ImageDraw, ImageFont
+
 
 
 # 注册
@@ -124,42 +125,59 @@ def verify_code(request):
     #将内存中的图片数据返回给客户端，MIME类型为图片png
     return HttpResponse(buf.getvalue(), 'image/png')
 def user_login(request):
-    list=request.POST
-    yzm=list['yzm']
-    if yzm.lower()==request.session['verifycode'].lower():
-        u_name=list['username']
-        u_pwd=list['pwd']
-        s1=sha1()
-        s1.update(u_pwd.encode('utf-8'))
-        obb=s1.hexdigest()
-        ob=UserInfo.users.get(uname=u_name).upwd
-        id=UserInfo.users.get(uname=u_name).id
-        if obb==ob:
-            response=render(request,'tt_goods/index.html')
-            response.set_cookie('name',u_name)
-            request.session['id'] = id
-            return response
-        else :
-            context={'data':"alert('密码不正确请重新登录')"}
-            return  render(request,'tt_user/login.html',context)
+    if request.method=='GET':
+        return redirect('/user/login/')
+    if 'id' in request.session :
+        return redirect('/index/')
     else:
-        context = {'data': "alert('验证码错误')","title":"天天生鲜-登录"}
-        return render(request,'tt_user/login.html',context)
+        list=request.POST
+        yzm=list['yzm']
+        if yzm.lower()==request.session['verifycode'].lower():
+            u_name=list['username']
+            u_pwd=list['pwd']
+            s1=sha1()
+            s1.update(u_pwd.encode('utf-8'))
+            obb=s1.hexdigest()
+            ob=UserInfo.users.get(uname=u_name).upwd
+            id=UserInfo.users.get(uname=u_name).id
+            if obb==ob:
+                urlpath=request.session.get('url_path','/')
+                response=redirect(urlpath)
+                response.set_cookie('name',u_name)
+                request.session['id'] = id
+                request.session['uname'] = u_name
+                request.session.set_expiry(0)
+                return response
+            else :
+                context={'data':"alert('密码不正确请重新登录')"}
+                return  render(request,'tt_user/login.html',context)
+
+        else:
+            context = {'data': "alert('验证码错误')","title":"天天生鲜-登录"}
+            return render(request,'tt_user/login.html',context)
 
 # 用户中心
 def center_site (request):
+    print(request.path)
     id=request.session.get('id')
     ouser=UserAddressInfo.objects.filter(user=id)
     if ouser :
-        cou= UserAddressInfo.objects.count()
-        print(cou)
+        cou=len(ouser)
         o_user=ouser[cou-1]
         curadr=o_user.uaddress+' &emsp;&emsp;&emsp;&emsp; '+(o_user.uname+'&emsp;收')+' &emsp;&emsp;&emsp;&emsp;电话 '+o_user.uphone
         return render(request,'tt_user/user_center_site.html',{'title':'天天生鲜-用户中心','curadr':curadr,'addr':'当前地址'})
     else :
         return render (request,'tt_user/user_center_site.html',{'title':'天天生鲜-用户中心','addr':'请编辑地址'})
 def center_info(request):
-    return render(request,'tt_user/user_center_info.html',{'title':'天天生鲜-用户中心'})
+     response=render(request,'tt_user/user_center_info.html',{'title':'天天生鲜-用户中心'})
+     id = request.session.get('id')
+     ouser = UserAddressInfo.objects.filter(user=id)
+     if ouser:
+         cou = len(ouser)
+         o_user = ouser[cou - 1]
+     response.set_cookie('phone',o_user.uphone)
+     response.set_cookie('addr',o_user.uaddress)
+     return response
 def center_order(request):
     return render(request, 'tt_user/user_center_order.html', {'title': '天天生鲜-用户中心'})
 def user_addr(request):
@@ -178,6 +196,11 @@ def user_addr(request):
         useraddr.user_id=Id
         useraddr.save()
         return redirect('/user/center_site/')
-
+# 注销
+def logout(request):
+    request.session.flush()
+    response = redirect('/user/login/')
+    response.set_cookie('name',max_age=-1)
+    return response
 
 

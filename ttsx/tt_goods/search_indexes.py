@@ -5,6 +5,9 @@ from .models import GoodsInfo
 class GoodsInfoIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
 
+    # 对title字段进行索引
+    gtitle = indexes.CharField(model_attr='gtitle')
+
     def get_model(self):
         return GoodsInfo
 

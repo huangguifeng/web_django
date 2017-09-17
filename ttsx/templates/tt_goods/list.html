@@ -72,7 +72,7 @@
                             <a href="/{{ goods.id }}/">{{ goods.gtitle }}</a>
                         </h4>
                         <div class="operate">
-                            <span class="prize">{{ goods.gprice }}</span>
+                            <span class="prize">￥{{ goods.gprice }}</span>
                             <span class="unit">{{ goods.gprice }}/{{ goods.gunit }}</span>
                             <a class="add_goods" title="加入购物车"></a>
                             <div class="move_cart" id=""></div>
@@ -83,17 +83,21 @@
             <div class="pagenation">
 
                 {% if goodslist.has_previous %}
-                    <a href="/list{{ tid }}_{{ goodslist.previous_page_number }}_{{ sort }}/" class="active">上一页</a>
+                    <a href="/list{{ tid }}_{{ goodslist.previous_page_number }}_{{ sort }}/" >上一页</a>
                 {% else %}
-                    <a href="/list{{ tid }}_1_{{ sort }}/" class="active">上一页</a>
+                    <a href="/list{{ tid }}_1_{{ sort }}/">上一页</a>
                 {% endif %}
                 {% for pindex in goodslist.paginator.page_range %}
-                    <a href="/list{{ tid }}_{{ pindex }}_{{ sort }}/" class="active">{{ pindex }}</a>
+                    {% if pindex == page.number %}
+                        <a href="#" class="active"> {{ pindex }}</a>
+                    {% else %}
+                    <a href="/list{{ tid }}_{{ pindex }}_{{ sort }}/" >{{ pindex }}</a>
+                    {% endif %}
                 {% endfor %}
                 {% if goodslist.has_next %}
-                    <a href="/list{{ tid }}_{{ goodslist.next_page_number }}_{{ sort }}/" class="active">下一页</a>
+                    <a href="/list{{ tid }}_{{ goodslist.next_page_number }}_{{ sort }}/" >下一页</a>
                 {% else %}
-                    <a href="/list{{ tid }}_{{ goodslist.paginator.num_pages }}_{{ sort }}/" class="active">下一页</a>
+                    <a href="/list{{ tid }}_{{ goodslist.paginator.num_pages }}_{{ sort }}/" >下一页</a>
                 {% endif %}
 
             </div>

@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from .models import *
 from django.core.paginator import Paginator
+from haystack.generic_views import SearchView
+
 # Create your views here.
 def index(request):
     typelist = TypeInfo.objects.all()
@@ -71,14 +73,16 @@ def detail(request,gid):
         respose.set_cookie('goods_id',gid)
     return respose
 
-from haystack.views import SearchView
-class Search(SearchView):
-    def extra_context(self):
-        context = super(Search,self).extra_context()
-        context['title']='搜索'
-        context['cart_count']=list(self.request)
-        return context
 
+from haystack.forms import SearchForm
+def global_search(request):
+    """全局搜索"""
+    keywords = request.GET['q']
+    sform = SearchForm(request.GET)
+    posts = sform.search()
+
+    context= {'posts': posts, 'query':keywords}
+    return render(request, 'search/search.html',context)
 def admin(request):
     pass
 

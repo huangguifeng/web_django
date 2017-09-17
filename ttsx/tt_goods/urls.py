@@ -6,5 +6,5 @@ urlpatterns = [
     url(r'^list(\d+)_(\d+)_(\d+)/$',views.list),
     url('^admin/$',views.admin),
     url(r'^(\d+)/$',views.detail),
-    url('^search/$',views.Search),
+    url('^search/$',views.SearchViews.as_view()),
 ]

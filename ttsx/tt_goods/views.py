@@ -74,6 +74,14 @@ def detail(request,gid):
     return respose
 
 
+from haystack.views import SearchView
+
+class SearchViews(SearchView):
+    def get_context_data(self,*args,*kwargs):
+        context = super().get_context_date(*args,*kwargs)
+        return context
+
+
 from haystack.forms import SearchForm
 def global_search(request):
     """全局搜索"""

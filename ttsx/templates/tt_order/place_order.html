@@ -1,4 +1,6 @@
-{% extends 'base_top.html' %}
+{% extends 'tt_order/base_order.html' %}
+
+
 {% block head %}
     <script type="text/javascript">
        $(function(){
@@ -71,7 +73,7 @@
         {% for g in goodsList %}
         <ul class="goods_list_td clearfix">
             <li class="col01">{{ forloop.counter }}</li>
-			<li class="col02"><img src="/static/images/{{ g.goods.gpic }}"></li>
+			<li class="col02"><img src="/static/{{ g.goods.gpic }}"></li>
 			<li class="col03">{{ g.goods.gtitle|slice:'14' }}</li>
 			<li class="col04">{{ g.goods.gunit }}</li>
 			<li class="col05"><span>{{ g.goods.gprice }}</span>元</li>

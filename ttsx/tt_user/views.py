@@ -181,7 +181,6 @@ def center_info(request):
         goods_list=[]
         for gid in list:
             goods_list.append(GoodsInfo.objects.get(id=gid))
-
      response=render(request,'tt_user/user_center_info.html',{'title':'天天生鲜-用户中心','goods_list': goods_list})
      id = request.session.get('id')
      ouser = UserAddressInfo.objects.filter(user=id)

@@ -1,5 +1,7 @@
 from django.conf.urls import include, url
 from tt_user import views
+from tt_user.user_decorators import is_login
+from tt_user.views import *
 
 urlpatterns=[
     url(r'^register/$',views.register),
@@ -12,8 +14,9 @@ urlpatterns=[
     url(r'^namech/$',views.namech),
     url(r'^user_login/$',views.user_login),
     url(r'^verify_code/',views.verify_code),
-    url(r'^center_info/$',views.center_info),
-    url(r'^center_order/$',views.center_order),
-    url(r'^center_site/$',views.center_site),
+    url(r'^center_info/$',is_login(center_info)),
+    url(r'^center_order/$',is_login(center_order)),
+    url(r'^center_site/$', is_login(center_site)),
     url(r'^user_addr/$',views.user_addr),
+    url(r'logout/$', views.logout),
 ]

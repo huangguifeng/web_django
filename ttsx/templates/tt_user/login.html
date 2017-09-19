@@ -2,7 +2,7 @@
 {% block head %}
     <script>
     $(function(){
-        {{ data|safe }}
+
         $('.name_input').blur(function(){
             var valu=$('.name_input').val();
             $.get('/user/namech/',{'name':valu},function(data){
@@ -33,6 +33,7 @@
             $('.name_input').attr('autocomplete','off');
             $('.pass_input').attr('autocomplete','off');
         }   })
+         {{ data|safe }}
     })
     </script>
 {% endblock head %}

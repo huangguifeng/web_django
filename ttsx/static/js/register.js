@@ -112,15 +112,15 @@ $(function(){
 			        $('#email').next().hide();
 			        error_email = false;}
 			    else if(data['data']==0){
-			        $('#email').next().html('你输入的邮箱已存在')
+			        $('#email').next().html('你输入的邮箱已存在');
 			        $('#email').next().show();
-			        error_check_password = true;}           })
+			        error_email = true;}           })
         }
 		else
 		{
 			$('#email').next().html('你输入的邮箱格式不正确')
 			$('#email').next().show();
-			error_check_password = true;
+			error_email = true;
 		}
 
 	}
@@ -131,7 +131,6 @@ $(function(){
 		check_pwd();
 		check_cpwd();
 		check_email();
-
 		if(error_name == false && error_password == false && error_check_password == false && error_email == false && error_check == false)
 		{
 			return true;

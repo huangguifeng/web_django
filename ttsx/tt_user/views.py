@@ -1,13 +1,19 @@
-from hashlib import sha1
 
+from hashlib import sha1
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
+import random
+from io import BytesIO
 # Create your views here.
+
+from tt_goods.models import GoodsInfo
+
 from tt_user.models import UserInfo, UserAddressInfo
 from django.conf import settings
 from django.core.mail import send_mail
 from django.http import HttpResponse
 from PIL import Image, ImageDraw, ImageFont
+
 
 
 # 注册
@@ -74,94 +80,119 @@ def namech (request):
         return JsonResponse({'data': 1})
     else:
         return JsonResponse({'data': 0 })
+
 def verify_code(request):
-    #引入随机函数模块
-    import random
-    #定义变量，用于画面的背景色、宽、高
-    bgcolor = (random.randrange(20, 100), random.randrange(
-        20, 100), 255)
-    width = 100
-    height = 36
-    #创建画面对象
-    im = Image.new('RGB', (width, height), bgcolor)
-    #创建画笔对象
-    draw = ImageDraw.Draw(im)
-    #调用画笔的point()函数绘制噪点
-    for i in range(0, 100):
-        xy = (random.randrange(0, width), random.randrange(0, height))
-        fill = (random.randrange(0, 255), 255, random.randrange(0, 255))
-        draw.point(xy, fill=fill)
-    #定义验证码的备选值
-    str1 = 'ABCD123EFGHIJK456LMNOPQRS789TUVWXYZ0'
-    #随机选取4个值作为验证码
-    rand_str = ''
-    for i in range(0, 4):
-        rand_str += str1[random.randrange(0, len(str1))]
-    #构造字体对象，ubuntu的字体路径为“/usr/share/fonts/truetype/freefont”
-    font = ImageFont.truetype('FreeMono.ttf', 23)
-    #构造字体颜色
-    fontcolor = (255, random.randrange(0, 255), random.randrange(0, 255))
-    #绘制4个字
-    draw.text((5, 2), rand_str[0], font=font, fill=fontcolor)
-    draw.text((25, 2), rand_str[1], font=font, fill=fontcolor)
-    draw.text((50, 2), rand_str[2], font=font, fill=fontcolor)
-    draw.text((75, 2), rand_str[3], font=font, fill=fontcolor)
-    #释放画笔
-    del draw
-    #存入session，用于做进一步验证
-    request.session['verifycode'] = rand_str
+    def verify_code(request):
+        # 引入随机函数模块
+        import random
+        # 定义变量，用于画面的背景色、宽、高
+        bgcolor = (random.randrange(20, 100), random.randrange(
+            20, 100), 255)
+        width = 100
+        height = 25
+        # 创建画面对象
+        im = Image.new('RGB', (width, height), bgcolor)
+        # 创建画笔对象
+        draw = ImageDraw.Draw(im)
+        # 调用画笔的point()函数绘制噪点
+        for i in range(0, 100):
+            xy = (random.randrange(0, width), random.randrange(0, height))
+            fill = (random.randrange(0, 255), 255, random.randrange(0, 255))
+            draw.point(xy, fill=fill)
+        # 定义验证码的备选值
+        str1 = 'ABCD123EFGHIJK456LMNOPQRS789TUVWXYZ0'
+        # 随机选取4个值作为验证码
+        rand_str = ''
+        for i in range(0, 4):
+            rand_str += str1[random.randrange(0, len(str1))]
+        # 构造字体对象，ubuntu的字体路径为“/usr/share/fonts/truetype/freefont”
+        font = ImageFont.truetype('FreeMono.ttf', 23)
+        # 构造字体颜色
+        fontcolor = (255, random.randrange(0, 255), random.randrange(0, 255))
+        # 绘制4个字
+        draw.text((5, 2), rand_str[0], font=font, fill=fontcolor)
+        draw.text((25, 2), rand_str[1], font=font, fill=fontcolor)
+        draw.text((50, 2), rand_str[2], font=font, fill=fontcolor)
+        draw.text((75, 2), rand_str[3], font=font, fill=fontcolor)
+        # 释放画笔
+        del draw
+        # 存入session，用于做进一步验证
+        request.session['verifycode'] = rand_str
 
-    #内存文件操作(python2)
-    #import cStringIO
-    #buf = cStringIO.StringIO()
+        # 内存文件操作(python2)
+        # import cStringIO
+        # buf = cStringIO.StringIO()
 
-    #内存文件操作(python3)
-    from io import BytesIO
-    buf = BytesIO()
+        # 内存文件操作(python3)
+        from io import BytesIO
+        buf = BytesIO()
 
-    #将图片保存在内存中，文件类型为png
-    im.save(buf, 'png')
-    #将内存中的图片数据返回给客户端，MIME类型为图片png
-    return HttpResponse(buf.getvalue(), 'image/png')
+        # 将图片保存在内存中，文件类型为png
+        im.save(buf, 'png')
+        # 将内存中的图片数据返回给客户端，MIME类型为图片png
+        return HttpResponse(buf.getvalue(), 'image/png')
+
 def user_login(request):
-    list=request.POST
-    yzm=list['yzm']
-    if yzm.lower()==request.session['verifycode'].lower():
-        u_name=list['username']
-        u_pwd=list['pwd']
-        s1=sha1()
-        s1.update(u_pwd.encode('utf-8'))
-        obb=s1.hexdigest()
-        ob=UserInfo.users.get(uname=u_name).upwd
-        id=UserInfo.users.get(uname=u_name).id
-        if obb==ob:
-            response=render(request,'tt_goods/index.html')
-            response.set_cookie('name',u_name)
-            request.session['id'] = id
-            return response
-        else :
-            context={'data':"alert('密码不正确请重新登录')"}
-            return  render(request,'tt_user/login.html',context)
+    if 'id' in request.session :
+        return redirect('/index/')
+    if request.method=='GET':
+        return redirect('/user/login/')
     else:
-        context = {'data': "alert('验证码错误')","title":"天天生鲜-登录"}
-        return render(request,'tt_user/login.html',context)
+        list=request.POST
+        yzm=list['yzm']
+        if yzm.lower()==request.session['verifycode'].lower():
+            u_name=list['username']
+            u_pwd=list['pwd']
+            s1=sha1()
+            s1.update(u_pwd.encode('utf-8'))
+            obb=s1.hexdigest()
+            ob=UserInfo.users.get(uname=u_name).upwd
+            id=UserInfo.users.get(uname=u_name).id
+            if obb==ob:
+                urlpath=request.session.get('url_path','/')
+                response=redirect(urlpath)
+                response.set_cookie('name',u_name)
+                request.session['id'] = id
+                request.session['uname'] = u_name
+                request.session.set_expiry(0)
+                return response
+            else :
+                context={'data':"alert('密码不正确请重新登录')"}
+                return  render(request,'tt_user/login.html',context)
+
+        else:
+            context = {'data': "alert('验证码错误')","title":"天天生鲜-登录"}
+            return render(request,'tt_user/login.html',context)
 
 # 用户中心
 def center_site (request):
     id=request.session.get('id')
     ouser=UserAddressInfo.objects.filter(user=id)
     if ouser :
-        cou= UserAddressInfo.objects.count()
-        print(cou)
+        cou=len(ouser)
         o_user=ouser[cou-1]
         curadr=o_user.uaddress+' &emsp;&emsp;&emsp;&emsp; '+(o_user.uname+'&emsp;收')+' &emsp;&emsp;&emsp;&emsp;电话 '+o_user.uphone
         return render(request,'tt_user/user_center_site.html',{'title':'天天生鲜-用户中心','curadr':curadr,'addr':'当前地址'})
     else :
         return render (request,'tt_user/user_center_site.html',{'title':'天天生鲜-用户中心','addr':'请编辑地址'})
 def center_info(request):
-    return render(request,'tt_user/user_center_info.html',{'title':'天天生鲜-用户中心'})
+     zjll=request.COOKIES.get('goods_id')
+     if zjll:
+        list=zjll.split('/')
+        goods_list=[]
+        for gid in list:
+            goods_list.append(GoodsInfo.objects.get(id=gid))
+     response=render(request,'tt_user/user_center_info.html',{'title':'天天生鲜-用户中心','goods_list': goods_list})
+     id = request.session.get('id')
+     ouser = UserAddressInfo.objects.filter(user=id)
+     if ouser:
+         cou = len(ouser)
+         o_user = ouser[cou - 1]
+     response.set_cookie('phone',o_user.uphone)
+     response.set_cookie('addr',o_user.uaddress)
+     return response
 def center_order(request):
-    return render(request, 'tt_user/user_center_order.html', {'title': '天天生鲜-用户中心'})
+    return redirect('/order/list1/')
 def user_addr(request):
     userlist=request.POST
     name=userlist.get('name')
@@ -178,6 +209,13 @@ def user_addr(request):
         useraddr.user_id=Id
         useraddr.save()
         return redirect('/user/center_site/')
+
+# 注销
+def logout(request):
+    request.session.flush()
+    response = redirect('/user/login/')
+    response.set_cookie('name',max_age=-1)
+    return response
 
 
 

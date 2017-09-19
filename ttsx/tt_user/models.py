@@ -1,6 +1,7 @@
 from django.db import models
 
 # Create your models here.
+
 class UserInfoManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(isValid=True)
@@ -25,4 +26,6 @@ class UserAddressInfo (models.Model):
      uaddress=models.CharField(max_length=100)
      uphone=models.CharField(max_length=11)
      user=models.ForeignKey('UserInfo')
+
+
 

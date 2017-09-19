@@ -2,9 +2,26 @@
 	 {% block head%}
 	<script type="text/javascript" src="/static/js/jquery-ui.min.js"></script>
 	<script type="text/javascript" src="/static/js/slide.js"></script>
+         <script src="/static/js/jquery.cookie.js"></script>
+            <script src="/static/js/list.js"></script>
 	<script>
     $(function () {
         {{ no_null|safe }}
+        var name = $.cookie ('name');
+        $('.login_info').show();
+        $('.em0').html(name);
+        $('.login_btn').hide();
+        $('.user_info_list .li1').html('<span>联系方式：</span>'+ name);
+        var addr=$.cookie('addr')
+        var phone=$.cookie('phone')
+        $('.user_info_list .li1').next().html('<span>联系方式：</span>'+phone)
+        $('.user_info_list .li1').next().next().html('<span>联系地址：</span>'+addr)
+        $('.login_info').mouseover(function(){
+$('.em0').hide();$('.em1').html(name);$('.em3').show();
+         })
+        $('.login_info').mouseout(function(){
+            $('.em0').show();$('.em3').hide();
+        })
     })
     </script>
 
@@ -12,34 +29,56 @@
 
 
 {% block body%}
-	<div class="header_con">
-
-<div class="header_con">
-
+    <div class="header_con">
 		<div class="header">
 			<div class="welcome fl">欢迎来到天天生鲜!</div>
 			<div class="fr">
 				<div class="login_info fl">
-					欢迎您：<em>张 山</em>
+					欢迎您：<div style="display:inline-block"><em class="em0"></em>
+                    <div class="em3">
+                        <em class="em1"></em>
+                        <div class="em2 fr"><a href="/user/logout/">&emsp;注销&emsp;</a></div>
+                    </div></div>
 				</div>
-				<div class="login_btn fl">
+
+				    <div class="login_btn fl">
 					<a href="/user/login/">登录</a>
 					<span>|</span>
 					<a href="/user/register/">注册</a>
-				</div>
+				    </div>
 				<div class="user_link fl">
 					<span>|</span>
-					<a href="/user/center_info">用户中心</a>
+
+					<a href="/user/center_info/">用户中心</a>
+
 					<span>|</span>
-					<a href="cart.html">我的购物车</a>
+					<a href="/cart/">我的购物车</a>
 					<span>|</span>
-					<a href="/user/center_orde">我的订单</a>
+
+					<a href="/user/center_order/">我的订单</a>
+
 				</div>
 			</div>
 		</div>
+
+	</div>
+	<div class="search_bar clearfix">
+		<a href="/" class="logo fl"><img src="/static/images/logo.png"></a>
+		<div class="search_con fl">
+			<input type="text" class="input_text fl" name="" placeholder="搜索商品">
+			<input type="button" class="input_btn fr" name="" value="搜索">
+		</div>
+		<div class="guest_cart fr">
+			<a href="/cart/" class="cart_name fl">我的购物车</a>
+			<div class="goods_count fl">0</div>
+		</div>
 	</div>
 
+
+
 {% block middle_com %}
+
+
 
 {% endblock middle_com%}
 

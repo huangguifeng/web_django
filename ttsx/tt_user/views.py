@@ -153,3 +153,8 @@ def center_info(request):
     return render(request,'tt_user/user_center_info.html',{'title':'天天生鲜-用户中心'})
 # def center_info (request):
 #     return redirect('/tt_user/user_center_info.html')
+
+
+# 这是张帆写的
+def center_order(request):
+    return render(request,'tt_user/user_center_order.html')

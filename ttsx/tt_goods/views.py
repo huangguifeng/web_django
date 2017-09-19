@@ -73,16 +73,12 @@ def detail(request,gid):
         respose.set_cookie('goods_id',gid)
     return respose
 
+class SearchViews(SearchView):
+    def get_context_data(self, *args, **kwargs):
+        context = super().get_context_data(*args, **kwargs)
+        # do something
+        return context
 
-from haystack.forms import SearchForm
-def global_search(request):
-    """全局搜索"""
-    keywords = request.GET['q']
-    sform = SearchForm(request.GET)
-    posts = sform.search()
-
-    context= {'posts': posts, 'query':keywords}
-    return render(request, 'search/search.html',context)
 def admin(request):
     pass
 

@@ -2,8 +2,6 @@
  * Created by python on 17-9-13.
  */
  $(function () {
-            //  加减的点击事件
-
         $(function () {
              // 加减的点击事件
             var value = $(".num_show").val();

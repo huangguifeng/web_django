@@ -67,7 +67,8 @@ def detail(request,gid):
                 list.append(gid)
             else:
                 list.append(gid)
-        goodid = '/'.join(list)#拼接为字符串
+        goodid = '/'.join(list)
+        #拼接为字符串
         respose.set_cookie('goods_id',goodid)
     else:
         respose.set_cookie('goods_id',gid)

@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 import random
 from io import BytesIO
 # Create your views here.
+from tt_goods.models import GoodsInfo
 from tt_user.models import UserInfo, UserAddressInfo
 from django.conf import settings
 from django.core.mail import send_mail
@@ -174,7 +175,14 @@ def center_site (request):
     else :
         return render (request,'tt_user/user_center_site.html',{'title':'天天生鲜-用户中心','addr':'请编辑地址'})
 def center_info(request):
-     response=render(request,'tt_user/user_center_info.html',{'title':'天天生鲜-用户中心'})
+     zjll=request.COOKIES.get('goods_id')
+     if zjll:
+        list=zjll.split('/')
+        goods_list=[]
+        for gid in list:
+            goods_list.append(GoodsInfo.objects.get(id=gid))
+
+     response=render(request,'tt_user/user_center_info.html',{'title':'天天生鲜-用户中心','goods_list': goods_list})
      id = request.session.get('id')
      ouser = UserAddressInfo.objects.filter(user=id)
      if ouser:
@@ -184,7 +192,7 @@ def center_info(request):
      response.set_cookie('addr',o_user.uaddress)
      return response
 def center_order(request):
-    return render(request, 'tt_user/user_center_order.html', {'title': '天天生鲜-用户中心'})
+    return redirect('/order/list1/')
 def user_addr(request):
     userlist=request.POST
     name=userlist.get('name')

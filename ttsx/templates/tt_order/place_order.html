@@ -18,8 +18,9 @@
            });
            total_pay = total2 + 10;
            $('.total_goods_count').children('em').text(total1);
-           $('.total_goods_count').children('b').text(total2+'元');
-           $('.total_pay').children('b').text(total_pay+'元');
+           $('.total_goods_count').children('b').text(total2.toFixed(2)+'元');
+           $('.total_pay').children('b').text(total_pay.toFixed(2)+'元');
+
        })
     </script>
 {% endblock head %}
@@ -34,14 +35,16 @@
 		</div>
 	</div>
 
+    <form method="post" action="/order/refer_order/">
+
 	<h3 class="common_title">确认收货地址</h3>
 
 	<div class="common_list_con clearfix">
 		<dl>
 			<dt>寄送到：</dt>
-			<dd><input type="radio" name="" checked="">北京市 海淀区 东北旺西路8号中关村软件园 （李思 收） 182****7528</dd>
+			<dd><input type="radio" name="address" checked="" value="" >{{user.uaddress}} （{{user.user.uname}} 收） {{user.uphone}}</dd>
 		</dl>
-		<a href="user_center_site.html" class="edit_site">编辑收货地址</a>
+		<a href="/user/center_site/" class="edit_site">编辑收货地址</a>
 
 	</div>
 
@@ -70,8 +73,9 @@
 			<li class="col05">小计</li>
 		</ul>
 
-        {% for g in goodsList %}
+        {% for g in clist %}
         <ul class="goods_list_td clearfix">
+        <input type="hidden" name="cid" value="{{ g.id }}">
             <li class="col01">{{ forloop.counter }}</li>
 			<li class="col02"><img src="/static/{{ g.goods.gpic }}"></li>
 			<li class="col03">{{ g.goods.gtitle|slice:'14' }}</li>
@@ -95,6 +99,7 @@
 	</div>
 
 	<div class="order_submit clearfix">
-		<a href="/order/refer_order/" id="order_btn">提交订单</a>
+        <input type="submit" value="提交订单"/>
 	</div>
+    </form>
 {% endblock middle_com%}

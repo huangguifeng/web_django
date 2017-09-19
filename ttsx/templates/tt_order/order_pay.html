@@ -1,0 +1,55 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <title>订单支付</title>
+
+    <script src="/static/js/jquery-1.12.4.min.js"></script>
+    <script>
+
+        $(function () {
+            setTimeout('location.href="/order/list1/";',3000);
+            var num = 3;
+            setInterval(update,1000);
+            function update() {
+                num --;
+                $('.san').html(num);
+            }
+        })
+
+    </script>
+    <style>
+        #dd{
+            text-align: center;
+            width: 80%;
+        }
+        #da{
+            margin-left: 10%;
+        }
+        #fukuan{
+            color:orange;
+            font-size: 27px;
+        }
+        .san{
+            color:red;
+            font-size: 24px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div id="da">
+    <img src="/static/images/zhifu.jpg" alt="">
+    <div id="dd">
+        <br><br>
+        <span>订单编号：{{orderinfo.oid}}</span><br>
+        <span>应付金额：</span><span><em id="fukuan">{{orderinfo.ototal}}</em>元</span><br>
+        <span >付款成功，<span class="san">3</span>秒后自动跳转</span>
+    </div>
+</div>
+
+
+</body>
+</html>

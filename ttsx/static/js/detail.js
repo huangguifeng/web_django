@@ -21,8 +21,6 @@
 
         //  总价的计算
 
-        // 总价的计算
-
         var price = $(".show_pirze em").html();
         price = parseFloat(price);
         var sum = value * price;
@@ -75,9 +73,10 @@
             if (data['error'] == 0) {
                 window.location.href = data['path']
             } else {
-                console.log(data['cart_num']);
+                // console.log(data['cart_num']);
                 $('.goods_count').html(data['cart_num'])
             }
-        })
+        });
     });
+
 });

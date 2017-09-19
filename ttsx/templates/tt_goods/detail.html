@@ -57,7 +57,7 @@
                     <a href="javascript:;" class="minus fr">-</a>
                 </div>
             </div>
-            <div class="total">总价：<em>{{ goods.gprice }}</em></div>
+            <div class="total">总价：<em>¥ {{ goods.gprice }}</em></div>
             <div class="operate_btn">
                 <input type="submit" value="立即购买" class="buy_btn">
                 <div class="move_cart"></div>
@@ -91,14 +91,11 @@
             </ul>
 
             <div class="tab_content">
-
                 <dl>
                     <dt>商品详情：</dt>
                     <dd>{{ goods.gcontent|safe }} </dd>
                 </dl>
-
             </div>
-
         </div>
     </div>
 {% endblock middle_com %}

@@ -1689,8 +1689,11 @@ html, body {
     line-height: 80px;
 }
 
+.order_submit{width:1200px;margin:20px auto;}
+.order_submit input{width:160px;height:40px;line-height:40px;text-align:center;background-color:#47aa34;color:#fff;font-size:16px;display:block;float:right;border:none}
+
 .order_goods_list .col01 {
-    width: 20%
+    width: 20%;
 }
 
 .order_goods_list .col01 img {

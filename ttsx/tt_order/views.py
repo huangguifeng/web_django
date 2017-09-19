@@ -6,10 +6,11 @@ from .models import *
 from datetime import datetime
 from django.db import transaction
 from django.core.paginator import Paginator,Page
-
+from tt_user import user_decorator
 # Create your views here.
 
 # 老师的方法
+@user_decorators.is_login
 def orderGoods(request):
     dict=request.GET
     cid=dict.getlist('cid')
@@ -24,6 +25,7 @@ def orderGoods(request):
 
     return render(request,'tt_order/place_order.html',context)
 
+@user_decorators.is_login
 @transaction.atomic
 def referOrder(request):
     try:
@@ -67,7 +69,7 @@ def referOrder(request):
                 cart.goods.gkuncun-=cart.count
                 cart.goods.save()
                 #删除购物车数据
-                # cart.delete()
+                cart.delete()
             else:
                 isOk=False
                 break
@@ -88,7 +90,9 @@ def referOrder(request):
 
         print('--++---------%s----------++---'%e)
 
+
 # 点击立即购买转到订单页面
+@user_decorators.is_login
 def order_liji(request):
 
     dict = request.GET('ljid')
@@ -101,6 +105,7 @@ def order_liji(request):
     context = {'clist': cart_list, 'user': user}
 
     return render(request, 'tt_order/place_order.html', context)
+
 
 def order_pay(request,dd):
 

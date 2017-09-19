@@ -45,11 +45,27 @@ $(function () {
             $(this).prop('checked', true);
             num_zong += this_zong;
             price_zong = parseFloat(price_zong) + parseFloat(this_price);
+            //全部勾选后 全选 打勾
+            var a = 0;
+            var b = $('.cart_list_td .col01 input').length;
+            $('.num_show').each(function (i) {
+                if ($('.cart_list_td .col01 input').eq(i).prop('checked') == true) {
+                    a += 1;
+                }
+            });
+            if (a == b){
+                $('.settlements .col01 input').prop('checked', true);
+            }
+
         }
         else {
             $(this).prop('checked', false);
             num_zong -= this_zong;
             price_zong -= this_price;
+
+            //有一个不选则去掉全选
+            $('.settlements .col01 input').prop('checked', false);
+
         }
         // {# 显示总数量 #}
         $('.settlements .col03 b').html(num_zong);
@@ -215,11 +231,11 @@ $(function () {
             }
         });
         $('.settlements .col03 em').html(sprice_zong.toFixed(2));
+
         //点击删除　购物车的商品
         var goods_id = $(this).next().val();
         $.post('/cart/cart_del/',{'goods_id':goods_id},function (data) {
             //回调函数
-
         });
 
     });

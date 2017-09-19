@@ -23,7 +23,9 @@ def index(request):
                'list2':list2,'list21':list21,
                'list3':list3,'list31':list31,
                'list4':list4,'list41':list41,
-               'list5':list5,'list51':list51}
+               'list5':list5,'list51':list51,
+               'itcast':1
+               }
     return render(request,'tt_goods/index.html',context)
 
 
@@ -54,7 +56,7 @@ def detail(request,gid):
     goods.save()
     # 获取每种类型的两种商品，-为倒序排序
     list = goods.gtype.goodsinfo_set.order_by('-id')[0:2]
-    context ={'goods':goods,'list':list,'title':"商品详情"}
+    context ={'goods':goods,'list':list,'title':"商品详情",'itcast':1}
     respose =  render(request,'tt_goods/detail.html',context)
 
     # 获取用户最近的五个商品的浏览记录

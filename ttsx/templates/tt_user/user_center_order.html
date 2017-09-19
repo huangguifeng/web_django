@@ -1,20 +1,5 @@
 {% extends 'tt_user/base_user_center.html' %}
 
-{% block head %}
-    <script type="text/javascript">
-        $(function(){
-           var total = 0;
-           $('.col04').each(function () {
-               var price = parseFloat($(this).prev().prev().children().text()).toFixed(1);
-               var count = parseInt($(this).prev().text());
-               total=price*count;
-               $(this).text(total.toFixed(2)+'元');
-           });
-
-        });
-    </script>
-
-{% endblock head %}
 
  {% block userinfo %}
 

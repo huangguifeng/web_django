@@ -40,7 +40,7 @@ def emailbj (request):
         return JsonResponse({'data': 0})
     else:
         return JsonResponse({'data': 1 })
-def create (request):
+def create(request):
     user_info=request.POST
     uname=user_info.get('user_name')
     list = UserInfo.users.filter(uname=uname)
@@ -65,6 +65,7 @@ def active(request,uid):
     list.isActive=True
     list.save()
     return HttpResponse('激活成功')
+
 def abb (request):
     abc= UserInfo.users.filter(uname='admin1234')
     print(abc)
@@ -81,60 +82,60 @@ def namech (request):
     else:
         return JsonResponse({'data': 0 })
 
+
 def verify_code(request):
-    def verify_code(request):
-        # 引入随机函数模块
-        import random
-        # 定义变量，用于画面的背景色、宽、高
-        bgcolor = (random.randrange(20, 100), random.randrange(
-            20, 100), 255)
-        width = 100
-        height = 25
-        # 创建画面对象
-        im = Image.new('RGB', (width, height), bgcolor)
-        # 创建画笔对象
-        draw = ImageDraw.Draw(im)
-        # 调用画笔的point()函数绘制噪点
-        for i in range(0, 100):
-            xy = (random.randrange(0, width), random.randrange(0, height))
-            fill = (random.randrange(0, 255), 255, random.randrange(0, 255))
-            draw.point(xy, fill=fill)
-        # 定义验证码的备选值
-        str1 = 'ABCD123EFGHIJK456LMNOPQRS789TUVWXYZ0'
-        # 随机选取4个值作为验证码
-        rand_str = ''
-        for i in range(0, 4):
-            rand_str += str1[random.randrange(0, len(str1))]
-        # 构造字体对象，ubuntu的字体路径为“/usr/share/fonts/truetype/freefont”
-        font = ImageFont.truetype('FreeMono.ttf', 23)
-        # 构造字体颜色
-        fontcolor = (255, random.randrange(0, 255), random.randrange(0, 255))
-        # 绘制4个字
-        draw.text((5, 2), rand_str[0], font=font, fill=fontcolor)
-        draw.text((25, 2), rand_str[1], font=font, fill=fontcolor)
-        draw.text((50, 2), rand_str[2], font=font, fill=fontcolor)
-        draw.text((75, 2), rand_str[3], font=font, fill=fontcolor)
-        # 释放画笔
-        del draw
-        # 存入session，用于做进一步验证
-        request.session['verifycode'] = rand_str
+    # 引入随机函数模块
+    import random
+    # 定义变量，用于画面的背景色、宽、高
+    bgcolor = (random.randrange(20, 100), random.randrange(
+        20, 100), 255)
+    width = 100
+    height = 25
+    # 创建画面对象
+    im = Image.new('RGB', (width, height), bgcolor)
+    # 创建画笔对象
+    draw = ImageDraw.Draw(im)
+    # 调用画笔的point()函数绘制噪点
+    for i in range(0, 100):
+        xy = (random.randrange(0, width), random.randrange(0, height))
+        fill = (random.randrange(0, 255), 255, random.randrange(0, 255))
+        draw.point(xy, fill=fill)
+    # 定义验证码的备选值
+    str1 = 'ABCD123EFGHIJK456LMNOPQRS789TUVWXYZ0'
+    # 随机选取4个值作为验证码
+    rand_str = ''
+    for i in range(0, 4):
+        rand_str += str1[random.randrange(0, len(str1))]
+    # 构造字体对象，ubuntu的字体路径为“/usr/share/fonts/truetype/freefont”
+    font = ImageFont.truetype('FreeMono.ttf', 23)
+    # 构造字体颜色
+    fontcolor = (255, random.randrange(0, 255), random.randrange(0, 255))
+    # 绘制4个字
+    draw.text((5, 2), rand_str[0], font=font, fill=fontcolor)
+    draw.text((25, 2), rand_str[1], font=font, fill=fontcolor)
+    draw.text((50, 2), rand_str[2], font=font, fill=fontcolor)
+    draw.text((75, 2), rand_str[3], font=font, fill=fontcolor)
+    # 释放画笔
+    del draw
+    # 存入session，用于做进一步验证
+    request.session['verifycode'] = rand_str
 
-        # 内存文件操作(python2)
-        # import cStringIO
-        # buf = cStringIO.StringIO()
+    # 内存文件操作(python2)
+    # import cStringIO
+    # buf = cStringIO.StringIO()
 
-        # 内存文件操作(python3)
-        from io import BytesIO
-        buf = BytesIO()
+    # 内存文件操作(python3)
+    from io import BytesIO
+    buf = BytesIO()
 
-        # 将图片保存在内存中，文件类型为png
-        im.save(buf, 'png')
-        # 将内存中的图片数据返回给客户端，MIME类型为图片png
-        return HttpResponse(buf.getvalue(), 'image/png')
+    # 将图片保存在内存中，文件类型为png
+    im.save(buf, 'png')
+    # 将内存中的图片数据返回给客户端，MIME类型为图片png
+    return HttpResponse(buf.getvalue(), 'image/png')
 
 def user_login(request):
     if 'id' in request.session :
-        return redirect('/index/')
+        return redirect('/')
     if request.method=='GET':
         return redirect('/user/login/')
     else:
@@ -150,6 +151,7 @@ def user_login(request):
             id=UserInfo.users.get(uname=u_name).id
             if obb==ob:
                 urlpath=request.session.get('url_path','/')
+                print(urlpath)
                 response=redirect(urlpath)
                 response.set_cookie('name',u_name)
                 request.session['id'] = id
@@ -175,24 +177,32 @@ def center_site (request):
         return render(request,'tt_user/user_center_site.html',{'title':'天天生鲜-用户中心','curadr':curadr,'addr':'当前地址'})
     else :
         return render (request,'tt_user/user_center_site.html',{'title':'天天生鲜-用户中心','addr':'请编辑地址'})
+
+
 def center_info(request):
-     zjll=request.COOKIES.get('goods_id')
-     if zjll:
-        list=zjll.split('/')
-        goods_list=[]
-        for gid in list:
-            goods_list.append(GoodsInfo.objects.get(id=gid))
-     response=render(request,'tt_user/user_center_info.html',{'title':'天天生鲜-用户中心','goods_list': goods_list})
-     id = request.session.get('id')
-     ouser = UserAddressInfo.objects.filter(user=id)
-     if ouser:
-         cou = len(ouser)
-         o_user = ouser[cou - 1]
-     response.set_cookie('phone',o_user.uphone)
-     response.set_cookie('addr',o_user.uaddress)
-     return response
+    uid =request.session.get('id')
+    dict = request.COOKIES
+    goods = dict.get("goods_id")
+    list = goods.split('/')
+    goodlist = GoodsInfo.objects.filter(id__in=list)
+    useradd = UserAddressInfo.objects.filter(user_id=uid).order_by('-id')[0]
+    phone = ""
+    addr = ""
+    name = ""
+    if useradd:
+        name = useradd.uname
+        phone = useradd.uphone
+        addr = useradd.uaddress
+    response = render(request, 'tt_user/user_center_info.html',
+                      {'title': '天天生鲜-用户中心', 'goods_list': goodlist,'name':name,'phone':phone,
+                       'add':addr,
+                       'info':'用户中心'})
+    return response
+
+
 def center_order(request):
     return redirect('/order/list1/')
+
 def user_addr(request):
     userlist=request.POST
     name=userlist.get('name')

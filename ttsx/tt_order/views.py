@@ -1,4 +1,5 @@
 from django.shortcuts import render,redirect
+from django.http import HttpResponse
 from  tt_cart.models import CartInfo
 from tt_goods.models import GoodsInfo
 from tt_user.models import UserInfo, UserAddressInfo
@@ -6,26 +7,23 @@ from .models import *
 from datetime import datetime
 from django.db import transaction
 from django.core.paginator import Paginator,Page
-from tt_user import user_decorator
+from tt_user.user_decorators import *
 # Create your views here.
 
 # 老师的方法
-@user_decorators.is_login
+@is_login
 def orderGoods(request):
     dict=request.GET
     cid=dict.getlist('cid')
-    cart_list=CartInfo.objects.filter(id__in=cid)
-
-    userOby=UserInfo.objects.get(id=request.session['id']) # ++++++++++++++++
-    user=UserAddressInfo.objects.get(user_id=userOby.id)  #++++++++++++++++
-
-    # user=UserAddressInfo.objects.get(user_id=2)          #-------------
+    cart_list=CartInfo.objects.filter(goods_id__in=cid)
+    userOby=UserInfo.users.get(id=request.session['id'])
+    user=UserAddressInfo.objects.filter(user_id=userOby.id).order_by("-id")[0]
 
     context={'clist':cart_list,'user':user}
 
     return render(request,'tt_order/place_order.html',context)
 
-@user_decorators.is_login
+@is_login
 @transaction.atomic
 def referOrder(request):
     try:
@@ -92,23 +90,57 @@ def referOrder(request):
 
 
 # 点击立即购买转到订单页面
-@user_decorators.is_login
+@is_login
 def order_liji(request):
+    # 开启事务
+    sid = transaction.savepoint()
+    user_id = request.session['id']
+    dict = request.GET
+    ljid = int(dict.get('goods_id'))
+    ljnum = int(dict.get('goods_num'))
+    user = UserAddressInfo.objects.filter(user_id=user_id).order_by('-id')[0]
 
-    dict = request.GET('ljid')
-    ljid = dict.get('ljid')
+    # 创建订单主表
+    order = OrderInfo()
+    order.oid = '%s%s' % (datetime.now().strftime('%Y%m%d%H%M%S'), '1')
+    order.odate = datetime.now()
 
-    userOby=UserInfo.objects.get(id=request.session['id']) # ++++++++++++++++
-    user=UserAddressInfo.objects.get(user_id=userOby.id)  #++++++++++++++++
+    order.user_id = user_id
+    # order.user_id=2
+    order.ototal = 0
+    order.oaddress = user.uname + user.uaddress + user.uphone
+    order.save()
 
-    cart_list = GoodsInfo.objects.filter(id__in=ljid)
-    context = {'clist': cart_list, 'user': user}
+    total = 0
+    goods = GoodsInfo.objects.filter(id=ljid)
 
-    return render(request, 'tt_order/place_order.html', context)
+    if ljnum <= goods[0].gkuncun:
+        # 库存量足够，可以购买
+        detail = OrderDetailInfo()
+        detail.order = order
+        detail.goods_id = ljid
+        detail.price = goods[0].gprice
+        detail.count = ljnum
+        detail.save()
+        # 计算总价
+        total += detail.count * detail.price
+        # 更改库存数量
+        goods[0].gkuncun -= detail.count
+        goods[0].save()
+
+        order.ototal = total + 10
+        order.save()
+
+        transaction.savepoint_commit(sid)
+        return redirect('/order/list1/')
+
+    else:
+        # 订单失败，是转到购物车，再次修改数量
+        transaction.savepoint_rollback(sid)
+        return HttpResponse('商品库存不足')
 
 
 def order_pay(request,dd):
-
     orderinfo=OrderInfo.objects.get(oid=dd)
     orderinfo.oIsPay=True
     orderinfo.save()
@@ -116,16 +148,16 @@ def order_pay(request,dd):
     return render(request,'tt_order/order_pay.html',context)
 
 def fenye(request,pindex):
-
     # 查询所有订单列表信息
     order = OrderInfo()
-    orderinfo = OrderInfo.objects.filter(user_id=id).order_by('-oid')   #++++++++
-    # orderinfo = OrderInfo.objects.filter(user_id=2).order_by('-oid')  # -------
+    uid = request.session.get('id')
+    orderinfo = OrderInfo.objects.filter(user_id=uid).order_by('-oid')
+    # orderinfo = OrderInfo.objects.filter(user_id=2).order_by('-oid')
     # 分页显示数据
     paginator = Paginator(orderinfo,4)
     pindex1 = int(pindex)
     page = paginator.page(pindex1)
-    context = {'orderinfo': orderinfo,'page': page, 'pindex': pindex1,'oIsPay': order.oIsPay}
+    context = {'orderinfo': orderinfo,'page': page, 'pindex': pindex1,'oIsPay': order.oIsPay,'info':'用户中心','title':'天天生鲜－我的订单'}
     return render(request, 'tt_user/user_center_order.html', context)
 
 

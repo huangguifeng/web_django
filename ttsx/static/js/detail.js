@@ -3,31 +3,45 @@
  */
 
         ;$(function () {
-    // 加减的点击事件
+       $('.num_show').blur(function () {
+        value = $(".num_show").val();
+        value = parseInt(value);
+        if (value >= 100) {
+            value = 100;
+        }
+        else if (value <= 1 || isNaN(value)){
+            value = 1
+        }
+        total();
+    });
 
-    var value = $(".num_show").val();
-    value = parseInt(value);
+    // 加减的点击事件
     $('.num_add').delegate('a', 'click', function () {
+        value = $(".num_show").val();
+        value = parseInt(value);
         if ($(this).html() == "+") {
-            value += 1;
-        } else {
-            value -= 1;
+            if(value<100){
+                value ++;
+            }
+        }
+        else {
+            value --;
             if (value <= 1) {
                 value = 1;
             }
         }
+        total();
+    });
+
+    function total() {
         $('.num_show').val(value);
-
-
         //  总价的计算
-
         var price = $(".show_pirze em").html();
         price = parseFloat(price);
         var sum = value * price;
         sum = sum.toFixed(2);
         $(".total em").html(sum)
-    });
-
+    }
 
     // 获取购物车里的商品数量
     $.post('/cart/cart_num/', function (data) {

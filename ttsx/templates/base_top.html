@@ -4,23 +4,35 @@
 	<script type="text/javascript" src="/static/js/slide.js"></script>
          <script src="/static/js/jquery.cookie.js"></script>
             <script src="/static/js/list.js"></script>
+
+
+
+
+         {% block myjs %}
+            {% endblock myjs %}
 	<script>
     $(function () {
         {{ no_null|safe }}
-        var name = $.cookie ('name');
-        $('.login_info').show();
-        $('.em0').html(name);
-        $('.login_btn').hide();
-        $('.user_info_list .li1').html('<span>联系方式：</span>'+ name);
-        var addr=$.cookie('addr')
-        var phone=$.cookie('phone')
-        $('.user_info_list .li1').next().html('<span>联系方式：</span>'+phone)
-        $('.user_info_list .li1').next().next().html('<span>联系地址：</span>'+addr)
-        $('.login_info').mouseover(function(){
-$('.em0').hide();$('.em1').html(name);$('.em3').show();
-         })
-        $('.login_info').mouseout(function(){
-            $('.em0').show();$('.em3').hide();
+        var name = $.cookie('name');
+        if (name == undefined) {
+            $('.login_btn').show();
+            $('.login_info').hide();
+        }else {
+            $('.login_btn').hide();
+            $('.login_info').show();
+            $('.em0').html(name);
+            $('.login_btn').hide();
+        }
+
+        $('.login_info').mouseover(function () {
+            $('.em0').hide();
+            $('.em1').html(name);
+            $('.em3').show();
+        })
+        $('.login_info').mouseout(function () {
+            $('.em0').show();
+            $('.em3').hide();
+
         })
     })
     </script>
@@ -35,7 +47,7 @@ $('.em0').hide();$('.em1').html(name);$('.em3').show();
 			<div class="fr">
 				<div class="login_info fl">
 					欢迎您：<div style="display:inline-block"><em class="em0"></em>
-                    <div class="em3">
+                        <div class="em3">
                         <em class="em1"></em>
                         <div class="em2 fr"><a href="/user/logout/">&emsp;注销&emsp;</a></div>
                     </div></div>
@@ -62,6 +74,8 @@ $('.em0').hide();$('.em1').html(name);$('.em3').show();
 		</div>
 
 	</div>
+
+ {% if itcast|default:2 == 1 %}
 	<div class="search_bar clearfix">
 		<a href="/" class="logo fl"><img src="/static/images/logo.png"></a>
 		<div class="search_con fl">
@@ -71,12 +85,28 @@ $('.em0').hide();$('.em1').html(name);$('.em3').show();
 			<input type="submit" class="input_btn fr"  value="搜索">
 		    </form>
         </div>
+
 		<div class="guest_cart fr">
 			<a href="/cart/" class="cart_name fl">我的购物车</a>
 			<div class="goods_count fl">0</div>
 		</div>
+
+
+
+	</div>
+     {% else %}
+     	<div class="search_bar clearfix">
+		<a href="/" class="logo fl"><img src="/static/images/logo.png"></a>
+		<div class="sub_page_name fl">|&nbsp;&nbsp;&nbsp;&nbsp;{{ info }}</div>
+		<div class="search_con fr">
+		  <form method="get" action="/search/">
+			<input type="text" class="input_text fl" name="q" placeholder="搜索商品">
+			<input type="submit" class="input_btn fr"  value="搜索">
+		    </form>
+		</div>
 	</div>
 
+    {% endif %}
 
 
 {% block middle_com %}

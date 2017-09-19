@@ -79,10 +79,4 @@
         });
     });
 
-    //显示库存
-    var goods_id = $('.my_goods_id').val();
-    $.get('/cart/kucun_num/',{"goods_id":goods_id},function (data) {
-        $('.kucun_num').html(data['kucun'])
-    });
-
 });

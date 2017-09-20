@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '4pz82c7(vzide(pcm$!9gihnec_gy3n8_a!4)kfz6@-(s4c&ee'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -41,7 +41,7 @@ INSTALLED_APPS = (
     'tt_user',
     'tt_goods',
     'tt_cart',
-    'tt_order'
+    'tt_order',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -109,13 +109,15 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
+STATIC_ROOT='/var/www/ttsx/static/'
 STATIC_URL = '/static/'
 STATICFILES_DIRS=[
     os.path.join(BASE_DIR,'static')
 ]
 
-MEDIA_ROOT=os.path.join(BASE_DIR,"static/media")
+# MEDIA_ROOT=os.path.join(BASE_DIR,"static/media")
 
+MEDIA_ROOT=os.path.join(STATIC_ROOT,'media')
 
 HAYSTACK_CONNECTIONS = {
     'default': {

@@ -74,7 +74,7 @@ def abb (request):
     else:
         return HttpResponse(abc)
 # 登录
-def namech (request):
+def namech(request):
     na_me = request.GET.get('name')
     list = UserInfo.users.filter(uname=na_me)
     if list :
@@ -182,7 +182,7 @@ def center_site (request):
 def center_info(request):
     uid =request.session.get('id')
     dict = request.COOKIES
-    goods = dict.get("goods_id")
+    goods = dict.get("goods_id",'100')
     list = goods.split('/')
     goodlist = GoodsInfo.objects.filter(id__in=list)
     useradd = UserAddressInfo.objects.filter(user_id=uid).order_by('-id')[0]
